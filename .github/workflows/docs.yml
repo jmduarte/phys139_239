@@ -32,7 +32,7 @@ jobs:
     - name: Setup build for deployment
       run: |
         mkdir -p docs/_build
-        cp syllabus.pdf docs/_build/syllabus.pdf
+        cp syllabus/syllabus.pdf docs/_build/syllabus.pdf
     - name: Deploy build to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
