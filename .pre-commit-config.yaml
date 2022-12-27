@@ -21,7 +21,7 @@ repos:
     args: ['--fix=no']
 
 - repo: https://github.com/PyCQA/isort
-  rev: 5.11.2
+  rev: 5.11.4
   hooks:
   - id: isort
     args: ["--profile", "black"]
