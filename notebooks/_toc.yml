@@ -1,0 +1,16 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book
+root: README.md
+parts:
+  - caption: Introduction
+    chapters:
+    - file: 01a_Introduction.ipynb
+    - file: 01b_Debugging.ipynb
+  - caption: Neural networks
+    chapters:
+    - file: 03_Image_Data_CNN.ipynb
+  - caption: References
+    chapters:
+    - file: zreferences.md

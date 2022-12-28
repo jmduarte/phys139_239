@@ -141,3 +141,4 @@ syllabus/syllabus.pdf
 *.blg
 *.fdb_latexmk
 *.bak0
+notebooks/_build

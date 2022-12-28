@@ -1,0 +1,10 @@
+jetnet
+jupyter-book
+matplotlib
+mplhep
+numpy
+requests
+sklearn
+tensorflow
+xrootd
+zenodo_get
