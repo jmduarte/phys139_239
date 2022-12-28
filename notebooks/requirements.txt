@@ -4,7 +4,7 @@ matplotlib
 mplhep
 numpy
 requests
-sklearn
+scikit-learn
 tensorflow
 xrootd
 zenodo_get
