@@ -6,5 +6,4 @@ numpy
 requests
 scikit-learn
 tensorflow
-xrootd
 zenodo_get
