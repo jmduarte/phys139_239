@@ -1,6 +1,3 @@
-# Table of contents
-# Learn more at https://jupyterbook.org/customize/toc.html
-
 format: jb-book
 root: README.md
 parts:
@@ -8,9 +5,13 @@ parts:
     chapters:
     - file: 01a_Introduction.ipynb
     - file: 01b_Debugging.ipynb
+  - caption: Decision trees
+    chapters:
+    - file: 02_Tabular_Data_BDT.ipynb
   - caption: Neural networks
     chapters:
-    - file: 03_Image_Data_CNN.ipynb
+    - file: 03_Tabular_Data_NN.ipynb
+    - file: 04_Image_Data_CNN.ipynb
   - caption: References
     chapters:
     - file: zreferences.md

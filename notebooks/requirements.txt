@@ -3,6 +3,7 @@ jupyter-book
 matplotlib
 mplhep
 numpy
+pandas
 requests
 scikit-learn
 tensorflow
