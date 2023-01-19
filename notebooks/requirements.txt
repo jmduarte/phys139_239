@@ -7,4 +7,5 @@ pandas
 requests
 scikit-learn
 tensorflow
+xgboost
 zenodo_get
