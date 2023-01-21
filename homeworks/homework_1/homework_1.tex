@@ -307,8 +307,8 @@ In other words, there exists a hyperplane that separates positive data points an
 In a 2D dataset, how many data points are in the smallest dataset that is not linearly separable, such that no three points are collinear? How about for a 3D dataset such that no four points are coplanar?
 Please limit your solution to a few lines---you should justify but not prove your answer.
 
-Finally, how does this generalize for an $N$-dimensional set, in which \textbf{no} $<$$N$-dimensional hyperplane contains a non-linearly-separable subset?
-	For the $N$-dimensional case, you may state your answer without proof or justification.
+Finally, how does this generalize for an $N$-dimensional set, in which \textbf{no} $<N$-dimensional hyperplane contains a non-linearly-separable subset?
+For the $N$-dimensional case, you may state your answer without proof or justification.
 \end{problem}
 \begin{solution}
 
@@ -336,14 +336,14 @@ The data is sampled from a 2D probability density distribution represented by $(
 The regions $x_1, x_2 > 0$ and $x_1, x_2 < 0$ have a target value $y = +1$ and are shown as blue data points, while the regions $x_1 > 0, x_2 < 0$ and $x_1 < 0, x_2 > 0$ have a target value of $y=-1$ and are shown as orange data points.
 
 First, select a linear model with no hidden layers.
-For the features, select the two indepdendent variables $x_1$ and $x_2$.
+For the features, select the two independent variables $x_1$ and $x_2$.
 Can you fit the data with this linear model?
 Why or why not?
 What happens if you add the feature $x_1x_2$?
 
 Now, return the features to just $(x_1, x_2)$ and start adding hidden layers.
 What's the smallest neural network (least number of layers and least number of neurons per layer) you can create that fits the training data ``perfectly'' (i.e. a training loss ${<}0.001$)? What is the corresponding test loss?
-Detail your hyperparameter choices by providing a screen shot and the URL to your solution (the URL contains all your settings choices).
+Detail your hyperparameter choices by providing a screenshot and the URL to your solution (the URL contains all your settings choices).
 \end{problem}
 
 \begin{solution}
@@ -351,7 +351,7 @@ Detail your hyperparameter choices by providing a screen shot and the URL to you
 \end{solution}
 
 \begin{problem}[8]
-Navigate your web browser to the TensorFlow Plaground \url{https://playground.tensorflow.org/#dataset=spiral&discretize=true}.
+Navigate your web browser to the TensorFlow Playground \url{https://playground.tensorflow.org/#dataset=spiral&discretize=true}.
 Select the spiral pattern for the data.
 
 Using all the features available, find a solution that fits the training data.

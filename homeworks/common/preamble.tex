@@ -61,47 +61,47 @@
 % Set up the problem environment.
 \newcounter{problem}[section]
 \newenvironment{problem}[1][]
-  {\begingroup
-    \setlength{\parskip}{0em}
-    \refstepcounter{problem}\par\addvspace{1em}\textbf{Problem~\Alph{problem}\!
+{\begingroup
+  \setlength{\parskip}{0em}
+  \refstepcounter{problem}\par\addvspace{1em}\textbf{Problem~\Alph{problem}\!
     \ifthenelse{\equal{#1}{}}{}{ [#1 points]}:}
   \endgroup}
 
 % Set up the subproblem environment.
 \newcounter{subproblem}[problem]
 \newenvironment{subproblem}[1][]
-  {\begingroup
-    \setlength{\parskip}{0em}
-    \refstepcounter{subproblem}\par\medskip\textbf{\roman{subproblem}.\!
+{\begingroup
+  \setlength{\parskip}{0em}
+  \refstepcounter{subproblem}\par\medskip\textbf{\roman{subproblem}.\!
     \ifthenelse{\equal{#1}{}}{}{ [#1 points]:}}
   \endgroup}
 
 % Set up the teachers and materials commands.
 \newcommand\teachers[1]
-  {\begingroup
-    \setlength{\parskip}{0em}
-    \vspace{0.3em} \textit{\hspace*{2em} TAs responsible: #1} \par
+{\begingroup
+  \setlength{\parskip}{0em}
+  \vspace{0.3em} \textit{\hspace*{2em} TAs responsible: #1} \par
   \endgroup}
 \newcommand\materials[1]
-  {\begingroup
-    \setlength{\parskip}{0em}
-    \textit{\hspace*{2em} Relevant materials: #1} \par \vspace{1em}
+{\begingroup
+  \setlength{\parskip}{0em}
+  \textit{\hspace*{2em} Relevant materials: #1} \par \vspace{1em}
   \endgroup}
 
 % Set up the hint environment.
 \newenvironment{hint}[1][]
-  {\begin{em}\textbf{Hint: }}
-  {\end{em}}
+{\begin{em}\textbf{Hint: }}
+    {\end{em}}
 
 
 % Set up the solution environment.
 \ifshowsolutions
   \newenvironment{solution}[1][]
-    {\par\medskip \begin{mdframed}\textbf{Solution~\Alph{problem}#1:} \begin{em}}
-    {\end{em}\medskip\end{mdframed}\medskip}
+  {\par\medskip \begin{mdframed}\textbf{Solution~\Alph{problem}#1:} \begin{em}}
+        {\end{em}\medskip\end{mdframed}\medskip}
   \newenvironment{subsolution}[1][]
-    {\par\medskip \begin{mdframed}\textbf{Solution~\Alph{problem}#1.\roman{subproblem}:} \begin{em}}
-    {\end{em}\medskip\end{mdframed}\medskip}
+  {\par\medskip \begin{mdframed}\textbf{Solution~\Alph{problem}#1.\roman{subproblem}:} \begin{em}}
+        {\end{em}\medskip\end{mdframed}\medskip}
 \else
   \excludecomment{solution}
   \excludecomment{subsolution}
