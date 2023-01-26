@@ -8,7 +8,7 @@
       \large
       Machine Learning in Physics \hfill
       UCSD PHYS 139/239 \hfill \\[1pt]
-      Homework 1\hfill
+      Homework 2\hfill
       Draft version due: Friday, February 3, 2023, 5:00pm\\
 	  \hfill
 	  Final version due: Wednesday, February 8, 2023, 5:00pm\\
@@ -207,7 +207,6 @@ Use the Scikit-learn API \texttt{xgboost.XGBClassifier}.
 For an initial choice of hyperparameters use 100 trees (\texttt{n_estimators}), maximum tree depth (\texttt{max_depth}) of 10, learning rate (\texttt{learning_rate}) of 0.1, \texttt{colsample_bytree} of 0.8, and \texttt{subsample} of 0.8.
 
 Plot the receiver operating characteristic (ROC) curve using the testing dataset.
-
 What area under the curve (AUC) and accuracy do you achieve ``out of the box''?
 \end{problem}
 
@@ -229,8 +228,7 @@ Use the binary crossentropy loss function, the SGD optimizer with a learning rat
 Train the model for 50 epochs.
 
 Plot the receiver operating characteristic (ROC) curve using the testing dataset.
-
-What AUC and accuracy do you reach ``out of the box''?
+What AUC and accuracy do you achieve ``out of the box''?
 \end{problem}
 
 
@@ -244,15 +242,11 @@ Why or why not?
 Now, we will make two minor changes to the network with ReLU activations: preprocessing and the optimizer.
 
 For the feature preprocessing use \texttt{sklearn.preprocessing.StandardScaler} to standardize the input features.
-Note you should use fit the standard scaler to the training data emph{only} and apply it to both the training and testing data.
-
-For the optimizer use Adam with a learning rate of 0.001 (which is the default) instead of SGD.
-
-Train the model for 50 epochs.
+Note you should use fit the standard scaler to the training data \emph{only} and apply it to both the training and testing data.
+For the optimizer, use Adam with a learning rate of 0.001 (which is the default) instead of SGD. Train the model for 50 epochs.
 
 Plot the receiver operating characteristic (ROC) curve using the testing dataset.
-
-What AUC and accuracy do you reach now?
+What AUC and accuracy do you achieve now?
 Is it comparable to the BDT?
 \end{problem}
 
