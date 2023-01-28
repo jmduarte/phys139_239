@@ -9,4 +9,4 @@ RUN apt-get update && \
 
 USER $NB_USER
 
-RUN pip install --no-cache-dir xgboost
+RUN pip install -U --no-cache-dir xgboost tensorflow
