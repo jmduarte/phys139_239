@@ -1,4 +1,4 @@
-FROM ucsdets/scipy-ml-notebook:2022.3-stable
+FROM ucsdets/scipy-ml-notebook:2023.1-stable
 LABEL maintainer="Javier Duarte <jduarte@ucsd.edu>"
 
 USER root
@@ -9,4 +9,4 @@ RUN apt-get update && \
 
 USER $NB_USER
 
-RUN pip install -U --no-cache-dir xgboost tensorflow
+RUN pip install --no-cache-dir xgboost
