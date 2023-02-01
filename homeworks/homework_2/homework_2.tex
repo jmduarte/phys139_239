@@ -69,7 +69,9 @@ How should we define $\mathbf{x}$ and $\mathbf{w}$ such that the model includes 
 \end{solution}
 
 Linear regression learns a model by minimizing the squared loss function $L$, which is the sum across all training data $\{(\mathbf{x}_1, y_1),\cdots,(\mathbf{x}_N, y_N)\}$ of the squared difference between actual and predicted output values:
-\[L(f) = \sum_{i=1}^N (y_i - \mathbf{w}^\intercal\mathbf{x}_i)^2\]
+\begin{equation}
+	L(f) = \sum_{i=1}^N (y_i - \mathbf{w}^\intercal\mathbf{x}_i)^2
+\end{equation}
 
 \begin{problem}[2]
 SGD uses the gradient of the loss function to make incremental adjustments to the weight vector $\mathbf{w}$.
@@ -91,7 +93,10 @@ Implement the \texttt{loss}, \texttt{gradient}, and \texttt{SGD} functions, defi
 
 \begin{itemize}
 	\item Use a squared loss function.
-	\item Terminate the SGD process after a specified number of epochs, where each epoch performs one SGD iteration for each point in the dataset.
+	\item Terminate the SGD process after a specified number of \emph{epochs}.
+	      Each epoch corresponds to one full pass over the entire dataset.
+	      One SGD iteration (weight update) is performed for each point in the dataset.
+	      So one epoch is equivalent to $N$ gradient updates, where $N$ is the size of the dataset.
 	\item It is recommended, but not required, that you shuffle the order of the points before each epoch such that you go through the points in a random order.
 	      You can use \texttt{numpy.random.permutation}.
 	\item Measure the loss after each epoch.

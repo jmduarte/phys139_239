@@ -66,8 +66,8 @@ def plot_dataset(X, Y, show=True):
     plt.colorbar()
 
     # Label the axes.
-    plt.xlabel("x_1")
-    plt.ylabel("x_2")
+    plt.xlabel(r"$x_1$")
+    plt.ylabel(r"$x_2$")
 
     if show:
         plt.show()
@@ -95,7 +95,7 @@ def plot_loss_function(X_grid, Y_grid, loss_grid):
     # Create a new figure and get its axes.
     plt.close("all")
     fig = plt.figure()
-    ax = fig.gca(projection="3d")
+    ax = fig.add_subplot(projection="3d")
 
     # Plot the loss function in 3D.
     ax.plot_surface(X_grid, Y_grid, loss_grid)
@@ -137,8 +137,8 @@ def animate_sgd_suite(SGD, loss, X, Y, params, N_epochs, FR, ms=1):
     fig, ax = plot_loss_function(w_grid[0], w_grid[1], loss_grid)
 
     # Label the axes:
-    ax.set_xlabel("x_1")
-    ax.set_ylabel("x_2")
+    ax.set_xlabel(r"$w_1$")
+    ax.set_ylabel(r"$w_2$")
 
     # Plot w_start values.
     (_,) = ax.plot(W_lst[:, 0, 0], W_lst[:, 0, 1], losses_lst[:, 0], "+", mew=2, ms=10, c="orange")
