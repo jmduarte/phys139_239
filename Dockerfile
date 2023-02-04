@@ -1,12 +1,17 @@
 FROM ucsdets/scipy-ml-notebook:2023.1-stable
-LABEL maintainer="Javier Duarte <jduarte@ucsd.edu>"
+# LABEL maintainer="Javier Duarte <jduarte@ucsd.edu>"
 
-USER root
+# USER root
 
-RUN apt-get update && \
-    apt-get install -y imagemagick && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
+# RUN apt-get update && \
+#     apt-get install -y imagemagick && \
+#     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-USER $NB_USER
+# USER jovyan
 
-RUN pip install -U --no-cache-dir xgboost scikit-learn
+# RUN pip install --no-cache-dir 'xgboost==1.7.3' 'scikit-learn==1.2.1' && \
+#     fix-permissions /opt/conda && \
+#     fix-permissions /home/jovyan
+
+# USER $NB_UID:$NB_GID
+# ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/conda/lib/
