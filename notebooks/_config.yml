@@ -4,6 +4,7 @@
 title: PHYS 139/239 Notebooks
 author: Javier Duarte
 logo: images/quark_gluon.png
+favicon: images/favicon.ico
 
 # Force re-execution of notebooks on each build.
 # See https://jupyterbook.org/content/execute.html

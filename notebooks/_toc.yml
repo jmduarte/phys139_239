@@ -1,16 +1,38 @@
 format: jb-book
 root: README.md
 parts:
-  - caption: Introduction
+  - caption: Week 1
     chapters:
+    - url: https://jduarte.physics.ucsd.edu/phys139_239/lectures/01_Introduction.pdf
+      title: "Lecture 01: Introduction"
+    - url: https://jduarte.physics.ucsd.edu/phys139_239/lectures/02_Perceptron_SGD.pdf
+      title: "Lecture 02: Perceptron and stochastic gradient descent"
     - file: 01a_Introduction.ipynb
     - file: 01b_Debugging.ipynb
-  - caption: Decision trees
+    - url: https://jduarte.physics.ucsd.edu/phys139_239/homework_1.pdf
+      title: "Homework 1 (due Week 2)"
+  - caption: Week 2
     chapters:
+    - url: https://jduarte.physics.ucsd.edu/phys139_239/lectures/03_SVM_Logistic.pdf
+      title: "Lecture 03: Support vector machine and logistic regression"
+    - url: https://jduarte.physics.ucsd.edu/phys139_239/lectures/04_Trees.pdf
+      title: "Lecture 04: (Boosted) decision trees"
     - file: 02_Tabular_Data_BDT.ipynb
-  - caption: Neural networks
+  - caption: Week 3
     chapters:
+    - url: https://jduarte.physics.ucsd.edu/phys139_239/lectures/05_Neural_Networks.pdf
+      title: "Lecture 05: Neural networks"
+    - url: https://jduarte.physics.ucsd.edu/phys139_239/lectures/06_Optimizers.pdf
+      title: "Lecture 06: Optimizing neural networks"
     - file: 03_Tabular_Data_NN.ipynb
+    - url: https://jduarte.physics.ucsd.edu/phys139_239/homework_2.pdf
+      title: "Homework 2 (due Week 4)"
+  - caption: Week 4
+    chapters:
+    - url: https://jduarte.physics.ucsd.edu/phys139_239/lectures/07_CNNs.pdf
+      title: "Lecture 07: Convolutional neural networks"
+    - url: https://jduarte.physics.ucsd.edu/phys139_239/lectures/08_Advanced_CNNs.pdf
+      title: "Lecture 08: Advanced convolutional neural networks"
     - file: 04_Image_Data_CNN.ipynb
   - caption: References
     chapters:
