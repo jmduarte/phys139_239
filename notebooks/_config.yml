@@ -1,7 +1,7 @@
 # Book settings
 # Learn more at https://jupyterbook.org/customize/config.html
 
-title: PHYS 139/239 Notebooks
+title: UCSD PHYS 139/239
 author: Javier Duarte
 logo: images/quark_gluon.png
 favicon: images/favicon.ico
