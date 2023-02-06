@@ -8,6 +8,9 @@ def plot_roc(labels, predictions):
     Args:
         labels (numpy.array)
         predictions (numpy.array)
+
+    Returns:
+        fig (matplotlib.figure.Figure)
     """
 
     fpr, tpr, _ = roc_curve(labels, predictions)
@@ -15,7 +18,7 @@ def plot_roc(labels, predictions):
     acc_score = accuracy_score(labels, predictions > 0.5)
 
     # plot TPR vs. FPR (ROC curve)
-    plt.figure()
+    fig = plt.figure()
     plt.plot(fpr, tpr, color="blueviolet", label=f"AUC = {auc_score*100:.2f}%, acc. = {acc_score*100:.2f}%")
 
     # make the plot readable
@@ -23,3 +26,4 @@ def plot_roc(labels, predictions):
     plt.ylabel("True positive rate", fontsize=12)
     plt.legend(frameon=False)
     plt.show()
+    return fig
