@@ -14,4 +14,5 @@ RUN pip install --no-cache-dir 'xgboost==1.7.3' 'scikit-learn==1.2.1' 'spektral=
     fix-permissions /home/jovyan
 
 USER $NB_UID:$NB_GID
-ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/conda/lib/
+ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/conda/lib
+ENV PATH=${PATH}:/usr/local/nvidia/bin:/opt/conda/bin
