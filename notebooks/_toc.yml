@@ -36,7 +36,7 @@ parts:
     - file: 04_Image_Data_CNN.ipynb
   - caption: Week 5
     chapters:
-    - url: https://jduarte.physics.ucsd.edu/phys139_239/lectures/09_Time_Series_RNNs.pdf"
+    - url: https://jduarte.physics.ucsd.edu/phys139_239/lectures/09_Time_Series_RNNs.pdf
       title: "Lecture 09: Time series and recurrent neural networks"
     - file: 05_Time_Series_Data_RNN.ipynb
   - caption: References
