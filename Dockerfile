@@ -9,7 +9,7 @@ RUN apt-get update && \
 
 USER jovyan
 
-RUN pip install --no-cache-dir 'xgboost==1.7.3' 'scikit-learn==1.2.1' 'spektral==1.2.0' && \
+RUN pip install --no-cache-dir 'xgboost==1.7.3' 'scikit-learn==1.2.1' 'spektral==1.2.0' 'gdown==4.6.0' && \
     fix-permissions /opt/conda && \
     fix-permissions /home/jovyan
 
