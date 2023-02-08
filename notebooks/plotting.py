@@ -76,8 +76,8 @@ def roc_data(y, predict_test, labels):
     aucs = {}
 
     for i, label in enumerate(labels):
-        df[label] = y[:, i]
-        df[f"{label}_pred"] = predict_test[:, i]
+        df[label] = y[:, i] if len(labels) > 1 else y
+        df[f"{label}_pred"] = predict_test[:, i] if len(labels) > 1 else predict_test
 
         fprs[label], tprs[label], _ = roc_curve(df[label], df[f"{label}_pred"])
 
