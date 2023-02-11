@@ -39,13 +39,16 @@ jobs:
           cd ../homeworks/homework_1 && \
           pdflatex homework_1 && \
           cd ../homework_2 && \
-          pdflatex homework_2"
+          pdflatex homework_2 && \
+          cd ../homework_3 && \
+          pdflatex homework_3"
 
     - name: Copy syllabus for deployment
       run: |
         cp syllabus/syllabus.pdf notebooks/_build/html/syllabus.pdf && \
         cp homeworks/homework_1/homework_1.pdf notebooks/_build/html/homework_1.pdf && \
-        cp homeworks/homework_2/homework_2.pdf notebooks/_build/html/homework_2.pdf
+        cp homeworks/homework_2/homework_2.pdf notebooks/_build/html/homework_2.pdf && \
+        cp homeworks/homework_2/homework_3.pdf notebooks/_build/html/homework_3.pdf
 
     - name: GitHub Pages action
       uses: peaceiris/actions-gh-pages@v3.9.0
