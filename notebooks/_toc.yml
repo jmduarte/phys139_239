@@ -38,7 +38,11 @@ parts:
     chapters:
     - url: https://jduarte.physics.ucsd.edu/phys139_239/lectures/09_Time_Series_RNNs.pdf
       title: "Lecture 09: Time series and recurrent neural networks"
+    - url: https://jduarte.physics.ucsd.edu/phys139_239/lectures/10_More_RNNs.pdf
+      title: "Lecture 10: More recurrent neural networks"
     - file: 05_Time_Series_Data_RNN.ipynb
+    - url: https://jduarte.physics.ucsd.edu/phys139_239/homework_3.pdf
+      title: "Homework 3 (due Week 6)"
   - caption: References
     chapters:
     - file: zreferences.md
