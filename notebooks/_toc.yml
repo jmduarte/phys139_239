@@ -43,6 +43,10 @@ parts:
     - file: 05_Time_Series_Data_RNN.ipynb
     - url: https://jduarte.physics.ucsd.edu/phys139_239/homework_3.pdf
       title: "Homework 3 (due Week 6)"
+  - caption: Week 6
+    chapters:
+    - url: https://jduarte.physics.ucsd.edu/phys139_239/lectures/11_GNNs.pdf
+      title: "Lecture 11: Graph neural networks"
   - caption: References
     chapters:
     - file: zreferences.md
