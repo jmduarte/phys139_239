@@ -9,6 +9,8 @@ RUN apt-get update && \
 
 USER jovyan
 
+RUN mamba install -c pyg -c conda-forge uproot xrootd pyg
+
 RUN pip install --no-cache-dir 'xgboost==1.7.3' 'scikit-learn==1.2.1' 'spektral==1.2.0' 'gdown==4.6.0' && \
     fix-permissions /opt/conda && \
     fix-permissions /home/jovyan

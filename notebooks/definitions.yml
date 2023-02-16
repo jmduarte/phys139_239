@@ -1,0 +1,72 @@
+# 48 track-level features
+features:
+ - track_pt
+ - track_ptrel
+ - trackBTag_Eta
+ - trackBTag_DeltaR
+ - trackBTag_EtaRel
+ - trackBTag_JetDistVal
+ - trackBTag_Momentum
+ - trackBTag_PPar
+ - trackBTag_PParRatio
+ - trackBTag_PtRatio
+ - trackBTag_PtRel
+ - trackBTag_Sip2dSig
+ - trackBTag_Sip2dVal
+ - trackBTag_Sip3dSig
+ - trackBTag_Sip3dVal
+ - track_VTX_ass
+ - track_charge
+ - track_deltaR
+ - track_detadeta
+ - track_dlambdadz
+ - track_dlambdadz
+ - track_dphidphi
+ - track_dphidxy
+ - track_dptdpt
+ - track_drminsv
+ - track_drsubjet1
+ - track_drsubjet2
+ - track_dxy
+ - track_dxydxy
+ - track_dxydz
+ - track_dxysig
+ - track_dz
+ - track_dzdz
+ - track_dzsig
+ - track_erel
+ - track_etarel
+ - track_fromPV
+ - track_isChargedHad
+ - track_isEl
+ - track_isMu
+ - track_lostInnerHits
+ - track_mass
+ - track_normchi2
+ - track_phirel
+ - track_pt
+ - track_ptrel
+ - track_puppiw
+ - track_quality
+
+# spectators to define mass/pT window
+spectators:
+ - fj_sdmass
+ - fj_pt
+
+# 2 labels: QCD or Hbb (we'll reduce the following labels)
+labels:
+ - label_QCD_b
+ - label_QCD_bb
+ - label_QCD_c
+ - label_QCD_cc
+ - label_QCD_others
+ - sample_isQCD
+ - label_H_bb
+
+nfeatures: 48
+nspectators: 2
+nlabels: 2
+
+# we're going to zero-pad up to 60 tracks
+ntracks: 60
