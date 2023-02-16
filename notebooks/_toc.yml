@@ -47,6 +47,9 @@ parts:
     chapters:
     - url: https://jduarte.physics.ucsd.edu/phys139_239/lectures/11_GNNs.pdf
       title: "Lecture 11: Graph neural networks"
+    - url: https://jduarte.physics.ucsd.edu/phys139_239/lectures/12_More_GNNs.pdf
+      title: "Lecture 12: More graph neural networks"
+    - file: 06_Graph_Data_GNN.ipynb
   - caption: References
     chapters:
     - file: zreferences.md
