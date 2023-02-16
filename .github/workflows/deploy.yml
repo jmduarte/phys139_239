@@ -20,7 +20,7 @@ jobs:
         activate-environment: phys139
         mamba-version: "*"
         use-mamba: true
-        channels: pyg,pytroch,conda-forge
+        channels: pyg,pytorch,conda-forge
         environment-file: notebooks/environment.yml
         python-version: 3.9
         auto-activate-base: false

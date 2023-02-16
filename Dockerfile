@@ -9,11 +9,14 @@ RUN apt-get update && \
 
 USER jovyan
 
-RUN mamba install -c pyg -c conda-forge uproot xrootd pyg
+RUN mamba install -c conda-forge uproot xrootd
 
 RUN pip install --no-cache-dir 'xgboost==1.7.3' 'scikit-learn==1.2.1' 'spektral==1.2.0' 'gdown==4.6.0' && \
     fix-permissions /opt/conda && \
     fix-permissions /home/jovyan
+
+RUN pip install --no-cache-dir --no-index torch-scatter torch-sparse torch-cluster torch-spline-conv -f https://data.pyg.org/whl/torch-1.9.0+cu111.html
+RUN pip install --no-cache-dir torch-geometric
 
 USER $NB_UID:$NB_GID
 RUN mkdir -p /tmp/nvvm && mkdir -p /tmp/nvvm/libdevice && cp /opt/conda/lib/libdevice.10.bc /tmp/nvvm/libdevice/
