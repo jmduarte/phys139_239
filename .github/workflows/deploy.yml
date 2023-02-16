@@ -12,16 +12,28 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - name: Set up Python 3.9
-      uses: actions/setup-python@v4
-      with:
-        python-version: "3.9"
 
-    - name: Install dependencies
+    # Install dependencies
+    - name: Setup Miniconda
+      uses: conda-incubator/setup-miniconda@v2
+      with:
+        activate-environment: phys139
+        mamba-version: "*"
+        use-mamba: true
+        channels: pyg,pytroch,conda-forge
+        environment-file: notebooks/environment.yml
+        python-version: 3.9
+        auto-activate-base: false
+
+    # Check dependencies
+    - name: Check Miniconda
+      shell: bash -l {0}
       run: |
-        python -m pip install --upgrade pip setuptools wheel
-        python -m pip install --no-cache-dir -r notebooks/requirements.txt
-        python -m pip list
+        conda info
+        conda list
+        conda config --show-sources
+        conda config --show
+        printenv | sort
 
     - name: Build the book
       shell: bash -l {0}

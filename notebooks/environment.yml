@@ -1,0 +1,28 @@
+name: phys139
+channels:
+    - pyg
+    - pytorch
+    - conda-forge
+dependencies:
+    - python=3.9
+    - numpy
+    - uproot
+    - tensorflow
+    - xrootd
+    - scikit-learn
+    - matplotlib
+    - pytorch
+    - torchvision
+    - torchaudio
+    - cpuonly
+    - pyg
+    - mplhep
+    - tqdm
+    - pip
+    - pip:
+      - jupyter-book
+      - jetnet
+      - gdown
+      - spektral
+      - zenodo_get
+      - requests
