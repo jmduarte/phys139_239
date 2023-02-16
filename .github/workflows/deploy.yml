@@ -18,9 +18,6 @@ jobs:
       uses: conda-incubator/setup-miniconda@v2
       with:
         activate-environment: phys139
-        mamba-version: "*"
-        use-mamba: true
-        channels: pyg,pytorch,conda-forge
         environment-file: notebooks/environment.yml
         python-version: 3.9
         auto-activate-base: false
