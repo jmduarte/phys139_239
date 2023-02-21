@@ -50,6 +50,10 @@ parts:
     - url: https://jduarte.physics.ucsd.edu/phys139_239/lectures/12_More_GNNs.pdf
       title: "Lecture 12: More graph neural networks and transformers"
     - file: 06_Graph_Data_GNN.ipynb
+  - caption: Week 7
+    chapters:
+    - url: https://jduarte.physics.ucsd.edu/phys139_239/lectures/13_Unsupervised.pdf
+      title: "Lecture 13: Unsupervised learning"
   - caption: References
     chapters:
     - file: zreferences.md
