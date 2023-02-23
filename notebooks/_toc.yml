@@ -54,6 +54,9 @@ parts:
     chapters:
     - url: https://jduarte.physics.ucsd.edu/phys139_239/lectures/13_Unsupervised.pdf
       title: "Lecture 13: Unsupervised learning"
+    - url: https://jduarte.physics.ucsd.edu/phys139_239/lectures/14_More_Autoencoders.pdf
+      title: "Lecture 14: More autoencoers"
+    - file: 07_Autoencoder.ipynb
   - caption: References
     chapters:
     - file: zreferences.md
