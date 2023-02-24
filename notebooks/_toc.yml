@@ -57,6 +57,8 @@ parts:
     - url: https://jduarte.physics.ucsd.edu/phys139_239/lectures/14_More_Autoencoders.pdf
       title: "Lecture 14: More autoencoers"
     - file: 07_Autoencoder.ipynb
+    - url: https://jduarte.physics.ucsd.edu/phys139_239/homework_4.pdf
+      title: "Homework 4 (due Week 8)"
   - caption: References
     chapters:
     - file: zreferences.md
