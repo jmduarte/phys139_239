@@ -50,7 +50,9 @@ jobs:
           cd ../homework_2 && \
           pdflatex homework_2 && \
           cd ../homework_3 && \
-          pdflatex homework_3"
+          pdflatex homework_3 && \
+          cd ../homework_4 && \
+          pdflatex homework_4"
 
     - name: Copy syllabus for deployment
       run: |
