@@ -59,6 +59,11 @@ parts:
     - file: 07_Autoencoder.ipynb
     - url: https://jduarte.physics.ucsd.edu/phys139_239/homework_4.pdf
       title: "Homework 4 (due Week 8)"
+  - caption: Week 8
+    chapters:
+    - url: https://jduarte.physics.ucsd.edu/phys139_239/lectures/15_Model_Compression.pdf
+      title: "Lecture 15: Model compression"
+    - file: 08_Compression.ipynb
   - caption: References
     chapters:
     - file: zreferences.md
