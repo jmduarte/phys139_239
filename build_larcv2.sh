@@ -1,16 +1,5 @@
 #!/usr/bin/env bash
 
-function setNumProcessors () {
-    # Set the number of processors used for build
-    # to be 1 less than are available
-    if [[ -f "$(which nproc)" ]]; then
-        NPROC="$(nproc)"
-    else
-        NPROC="$(grep -c '^processor' /proc/cpuinfo)"
-    fi
-    echo `expr "${NPROC}" - 1`
-}
-
 function main() {
     source /opt/conda/etc/profile.d/conda.sh
     conda init bash
@@ -29,8 +18,8 @@ function main() {
     printf "\n# PATH: ${PATH}\n"
     printf "\n# PYTHONPATH: ${PYTHONPATH}\n"
 
-    printf "\n# make -j${NPROC}\n"
-    make -j${NPROC}
+    printf "\n# make -j4\n"
+    make -j4
 
 }
 
