@@ -9,7 +9,7 @@ RUN apt-get update && \
 
 USER jovyan
 
-RUN mamba install -c conda-forge uproot xrootd
+RUN mamba install -c conda-forge uproot xrootd root
 
 RUN pip install --no-cache-dir 'xgboost==1.7.3' 'scikit-learn==1.2.1' 'spektral==1.2.0' 'gdown==4.6.0' 'mplhep==0.3.26' && \
     fix-permissions /opt/conda && \
@@ -24,5 +24,9 @@ RUN pip install --no-cache-dir --no-index torch-scatter torch-sparse torch-clust
 USER $NB_UID:$NB_GID
 RUN mkdir -p /tmp/nvvm && mkdir -p /tmp/nvvm/libdevice && cp /opt/conda/lib/libdevice.10.bc /tmp/nvvm/libdevice/
 ENV XLA_FLAGS="--xla_gpu_cuda_data_dir=/tmp"
-ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/conda/lib
+ENV LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/opt/conda/lib
 ENV PATH=${PATH}:/usr/local/nvidia/bin:/opt/conda/bin:/datasets/software/R2019a/sys/cuda/glnxa64/cuda/bin
+
+# larcv2 build
+ADD build_larcv2.sh /home/jovyan/build_larcv2.sh
+RUN source build_larcv2.sh
