@@ -12,7 +12,7 @@ USER jovyan
 # RUN rm -rf /opt/conda/pkgs/cache
 RUN mamba install -c conda-forge uproot xrootd root
 
-RUN pip install --no-cache-dir 'xgboost==1.7.3' 'scikit-learn==1.2.1' 'spektral==1.2.0' 'gdown==4.6.0' 'mplhep==0.3.26' 'larcv==3.5.0' && \
+RUN pip install --no-cache-dir 'xgboost==1.7.3' 'scikit-learn==1.2.1' 'spektral==1.2.0' 'gdown==4.6.0' 'mplhep==0.3.26' && \
     fix-permissions /opt/conda && \
     fix-permissions /home/jovyan
 
