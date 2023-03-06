@@ -12,6 +12,10 @@ function setNumProcessors () {
 }
 
 function main() {
+    source /opt/conda/etc/profile.d/conda.sh
+    conda init bash
+    conda activate base
+
     cd /home/jovyan/
 
     git clone https://github.com/DeepLearnPhysics/larcv2
