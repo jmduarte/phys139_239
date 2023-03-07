@@ -69,7 +69,7 @@ parts:
   - caption: Week 9
     chapters:
     - url: https://jduarte.physics.ucsd.edu/phys139_239/lectures/17_Generative_Modeling.pdf
-      title: "(Guest) Lecture 17: Generative modeling by \\href{https://bids.berkeley.edu/people/benjamin-nachman}{Dr. Benjamin Nachman}"
+      title: "(Guest) Lecture 17: Generative modeling by Dr. Benjamin Nachman"
   - caption: References
     chapters:
     - file: zreferences.md
