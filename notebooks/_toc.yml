@@ -70,6 +70,8 @@ parts:
     chapters:
     - url: https://jduarte.physics.ucsd.edu/phys139_239/lectures/17_Generative_Modeling.pdf
       title: "(Guest) Lecture 17: Generative modeling by Dr. Benjamin Nachman"
+    - url: https://jduarte.physics.ucsd.edu/phys139_239/lectures/18_Equivariant_NNs.pdf
+      title: "(Guest) Lecture 18: Equivariant neural networks by Prof. Rose Yu and Jianke Yang"
   - caption: References
     chapters:
     - file: zreferences.md
