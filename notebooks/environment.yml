@@ -18,6 +18,7 @@ dependencies:
     - pyg
     - mplhep
     - tqdm
+    - xgboost
     - pip
     - pip:
       - jupyter-book
@@ -26,3 +27,5 @@ dependencies:
       - spektral
       - zenodo_get
       - requests
+      - ipywidgets
+      - widgetsnbextension
