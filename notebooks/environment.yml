@@ -29,3 +29,4 @@ dependencies:
       - requests
       - ipywidgets
       - widgetsnbextension
+      - jupyter_contrib_nbextensions

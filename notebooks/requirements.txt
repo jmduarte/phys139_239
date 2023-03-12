@@ -2,6 +2,7 @@ gdown
 ipywidgets
 jetnet
 jupyter-book
+jupyter_contrib_nbextensions
 matplotlib
 mplhep
 numpy
