@@ -56,7 +56,7 @@ jobs:
           cd ../homework_4 && \
           pdflatex homework_4"
 
-    - name: Copy syllabus for deployment
+    - name: Copy syllabus and homework for deployment
       run: |
         cp syllabus/syllabus.pdf notebooks/_build/html/syllabus.pdf && \
         cp homeworks/homework_1/homework_1.pdf notebooks/_build/html/homework_1.pdf && \
