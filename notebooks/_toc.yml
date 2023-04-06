@@ -63,7 +63,7 @@ parts:
     chapters:
     - url: https://jduarte.physics.ucsd.edu/phys139_239/lectures/15_Model_Compression.pdf
       title: "Lecture 15: Model compression"
-    - url: https://jduarte.physics.ucsd.edu/phys139_239/lectures/16_Knowlege_Distillation.pdf
+    - url: https://jduarte.physics.ucsd.edu/phys139_239/lectures/16_Knowledge_Distillation.pdf
       title: "Lecture 16: Knowledge distillation"
     - file: 08_Compression.ipynb
   - caption: Week 9
