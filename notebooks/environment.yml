@@ -4,7 +4,7 @@ channels:
     - pytorch
     - conda-forge
 dependencies:
-    - python=3.9
+    - python=3.10.10
     - numpy
     - uproot
     - tensorflow
@@ -19,9 +19,10 @@ dependencies:
     - mplhep
     - tqdm
     - xgboost
+    - jupyter-book==0.15.1
+    - jupyter_contrib_nbextensions==0.7.0
     - pip
     - pip:
-      - jupyter-book
       - jetnet
       - gdown
       - spektral
@@ -29,4 +30,3 @@ dependencies:
       - requests
       - ipywidgets
       - widgetsnbextension
-      - jupyter_contrib_nbextensions
