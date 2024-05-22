@@ -18,7 +18,7 @@ RUN pip install --no-cache-dir 'xgboost==2.0.3' 'spektral==1.3.1' 'gdown==5.1.0'
 RUN pip install --no-cache-dir --no-index pyg_lib torch_scatter torch_sparse torch_cluster torch_spline_conv -f https://data.pyg.org/whl/torch-2.1.2+cu118.html && \
     pip install --no-cache-dir typing-extensions --upgrade
 
-RUN pip install --no-cache-dir 'jetnet'
+RUN pip install --no-cache-dir 'jetnet' 'tables==3.8.0'
 
 # USER $NB_UID:$NB_GID
 # RUN mkdir -p /tmp/nvvm && mkdir -p /tmp/nvvm/libdevice && cp /opt/conda/lib/libdevice.10.bc /tmp/nvvm/libdevice/
