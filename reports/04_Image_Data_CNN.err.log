@@ -1,0 +1,72 @@
+Traceback (most recent call last):
+  File "/home/runner/miniconda3/envs/phys139/lib/python3.10/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+  File "/home/runner/miniconda3/envs/phys139/lib/python3.10/site-packages/nbclient/client.py", line 1305, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/home/runner/miniconda3/envs/phys139/lib/python3.10/site-packages/jupyter_core/utils/__init__.py", line 165, in wrapped
+    return loop.run_until_complete(inner)
+  File "/home/runner/miniconda3/envs/phys139/lib/python3.10/asyncio/base_events.py", line 649, in run_until_complete
+    return future.result()
+  File "/home/runner/miniconda3/envs/phys139/lib/python3.10/site-packages/nbclient/client.py", line 705, in async_execute
+    await self.async_execute_cell(
+  File "/home/runner/miniconda3/envs/phys139/lib/python3.10/site-packages/nbclient/client.py", line 1058, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/home/runner/miniconda3/envs/phys139/lib/python3.10/site-packages/nbclient/client.py", line 914, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+from tensorflow.keras.utils import to_categorical
+from sklearn.model_selection import train_test_split
+
+
+def reshape_arrays(data, labels):
+    """reshape arrays for Keras"""
+    data = data.reshape(-1, 21, 21, 1)
+    labels = to_categorical(labels)
+    return data, labels
+
+
+# combine the false positives and true positives
+input_stamps = np.vstack([no_point_source_stamps, point_source_stamps])
+stamp_class = np.zeros(len(no_point_source_stamps) + len(point_source_stamps))
+stamp_class[len(no_point_source_stamps) :] = 1  # 0 for noise, 1 for a star
+
+# split the samples into training, validation and, test data sets:
+train_frac = 0.7
+val_frac = 0.1
+test_frac = 0.2
+# Note: we have to use train_test_split twice
+data_train_val, data_test, class_train_val, class_test = train_test_split(
+    input_stamps, stamp_class, test_size=test_frac, random_state=42
+)
+data_train, data_val, class_train, class_val = train_test_split(
+    input_stamps, stamp_class, test_size=val_frac / (train_frac + val_frac), random_state=42
+)
+
+data_train, class_train = reshape_arrays(data_train, class_train)
+data_val, class_val = reshape_arrays(data_val, class_val)
+data_test, class_test = reshape_arrays(data_test, class_test)
+
+print(
+    f"Number of samples in the training ({data_train.shape[0]}); test ({data_test.shape[0]}); and validation ({data_val.shape[0]}) data sets"
+)
+
+print(
+    f"Fraction of true samples in the training ({np.sum(class_train[:,0])/data_train.shape[0]}); test ({np.sum(class_test[:,0])/data_test.shape[0]}); and validation ({np.sum(class_val[:,0])/data_val.shape[0]}) data sets"
+)
+------------------
+
+----- stderr -----
+2024-06-05 04:34:16.184473: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: SSE4.1 SSE4.2 AVX AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+------------------
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mModuleNotFoundError[0m                       Traceback (most recent call last)
+Cell [0;32mIn[7], line 1[0m
+[0;32m----> 1[0m [38;5;28;01mfrom[39;00m [38;5;21;01mtensorflow[39;00m[38;5;21;01m.[39;00m[38;5;21;01mkeras[39;00m[38;5;21;01m.[39;00m[38;5;21;01mutils[39;00m [38;5;28;01mimport[39;00m to_categorical
+[1;32m      2[0m [38;5;28;01mfrom[39;00m [38;5;21;01msklearn[39;00m[38;5;21;01m.[39;00m[38;5;21;01mmodel_selection[39;00m [38;5;28;01mimport[39;00m train_test_split
+[1;32m      5[0m [38;5;28;01mdef[39;00m [38;5;21mreshape_arrays[39m(data, labels):
+
+[0;31mModuleNotFoundError[0m: No module named 'tensorflow.keras'
+
