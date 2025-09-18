@@ -1,4 +1,4 @@
-FROM ghcr.io/ucsd-ets/scipy-ml-notebook:2025.2-stable
+FROM ghcr.io/ucsd-ets/scipy-ml-notebook:2025.1-stable
 LABEL maintainer="Javier Duarte <jduarte@ucsd.edu>"
 
 USER root
