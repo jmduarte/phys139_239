@@ -1,1 +1,1 @@
-# UCSD PHYS 139/239: Machine Learning in Physics (Winter 2023)
+# UCSD PHYS 139/239: Machine Learning in Physics (Fall 2025)

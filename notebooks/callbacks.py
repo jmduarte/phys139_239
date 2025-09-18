@@ -3,6 +3,7 @@ Created on 7 Apr 2017
 
 @author: jkiesele
 """
+
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint, ReduceLROnPlateau
 
 

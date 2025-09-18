@@ -91,7 +91,6 @@ def get_potential(sim, sim_obj):
 
 
 class SimulationDataset(object):
-
     """Docstring for SimulationDataset."""
 
     def __init__(self, sim="r2", n=5, dim=2, dt=0.01, nt=100, extra_potential=None, **kwargs):
