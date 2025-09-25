@@ -22,7 +22,7 @@ jobs:
           channels: conda-forge
           activate-environment: phys139
           environment-file: notebooks/environment.yml
-          python-version: 3.10.10
+          python-version: 3.11.9
           auto-activate-base: false
 
       # Check dependencies
@@ -38,8 +38,6 @@ jobs:
       - name: Build the book
         shell: bash -l {0}
         run: |
-          jupyter contrib nbextension install --user
-          jupyter nbextension enable --py widgetsnbextension
           jupyter-book build notebooks
 
       - name: Compile LaTeX
