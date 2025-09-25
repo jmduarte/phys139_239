@@ -9,7 +9,7 @@ RUN apt-get update && \
 
 USER jovyan
 
-RUN mamba install -c conda-forge uproot xrootd root
+RUN mamba install -c conda-forge uproot xrootd
 
 RUN pip install --no-cache-dir 'xgboost==3.0.5' 'spektral==1.3.1' 'gdown==5.2.0' 'mplhep==0.4.1' 'jetnet==0.2.5' 'tables==3.10.2' 'torch_geometric' && \
     fix-permissions /opt/conda && \
