@@ -1,0 +1,930 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Hands-on 01b: Debugging &#8212; UCSD PHYS 139/239</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '01b_Debugging';</script>
+    <link rel="canonical" href="https://jduarte.physics.ucsd.edu/phys139_239/01b_Debugging.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Hands-on 02: Tabular data and BDTs: Classifying LHC collisions" href="02_Tabular_Data_BDT.html" />
+    <link rel="prev" title="Hands-on 01a: Introduction" href="01a_Introduction.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="README.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/quark_gluon.png" class="logo__image only-light" alt="UCSD PHYS 139/239 - Home"/>
+    <script>document.write(`<img src="_static/quark_gluon.png" class="logo__image only-dark" alt="UCSD PHYS 139/239 - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="README.html">
+                    UCSD PHYS 139/239: Machine Learning in Physics
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Week 1</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://jduarte.physics.ucsd.edu/phys139_239/lectures/01_Introduction.pdf">Lecture 01: Introduction</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://jduarte.physics.ucsd.edu/phys139_239/lectures/02_Perceptron_SGD.pdf">Lecture 02: Perceptron and stochastic gradient descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01a_Introduction.html">Hands-on 01a: Introduction</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Hands-on 01b: Debugging</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://jduarte.physics.ucsd.edu/phys139_239/homework_1.pdf">Homework 1 (due Week 2)</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Week 2</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://jduarte.physics.ucsd.edu/phys139_239/lectures/03_SVM_Logistic.pdf">Lecture 03: Support vector machine and logistic regression</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://jduarte.physics.ucsd.edu/phys139_239/lectures/04_Trees.pdf">Lecture 04: (Boosted) decision trees</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_Tabular_Data_BDT.html">Hands-on 02: Tabular data and BDTs: Classifying LHC collisions</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Week 3</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://jduarte.physics.ucsd.edu/phys139_239/lectures/05_Neural_Networks.pdf">Lecture 05: Neural networks</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://jduarte.physics.ucsd.edu/phys139_239/lectures/06_Optimizers.pdf">Lecture 06: Optimizing neural networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_Tabular_Data_NN.html">Hands-on 03: Tabular data and NNs: Classifying particle jets</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://jduarte.physics.ucsd.edu/phys139_239/homework_2.pdf">Homework 2 (due Week 4)</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Week 4</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://jduarte.physics.ucsd.edu/phys139_239/lectures/07_CNNs.pdf">Lecture 07: Convolutional neural networks</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://jduarte.physics.ucsd.edu/phys139_239/lectures/08_Advanced_CNNs.pdf">Lecture 08: Advanced convolutional neural networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_Image_Data_CNN.html">Hands-on 04: Image data and CNNs: Classifying astronomical images</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Week 5</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://jduarte.physics.ucsd.edu/phys139_239/lectures/09_Time_Series_RNNs.pdf">Lecture 09: Time series and recurrent neural networks</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://jduarte.physics.ucsd.edu/phys139_239/lectures/10_More_RNNs.pdf">Lecture 10: More recurrent neural networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_Time_Series_Data_RNN.html">Hands-on 05: Time series data and RNNs: Identifying cosmic rays in radio signals</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://jduarte.physics.ucsd.edu/phys139_239/homework_3.pdf">Homework 3 (due Week 6)</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Week 6</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://jduarte.physics.ucsd.edu/phys139_239/lectures/11_GNNs.pdf">Lecture 11: Graph neural networks</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://jduarte.physics.ucsd.edu/phys139_239/lectures/12_More_GNNs.pdf">Lecture 12: More graph neural networks and transformers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_Graph_Data_GNN.html">Hands-on 06: Graph data and GNNs: Tagging Higgs boson jets</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Week 7</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://jduarte.physics.ucsd.edu/phys139_239/lectures/13_Unsupervised.pdf">Lecture 13: Unsupervised learning</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://jduarte.physics.ucsd.edu/phys139_239/lectures/14_More_Autoencoders.pdf">Lecture 14: More autoencoers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_Autoencoder.html">Hands-on 07: Autoencoders for anomaly detection</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://jduarte.physics.ucsd.edu/phys139_239/homework_4.pdf">Homework 4 (due Week 8)</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Week 8</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://jduarte.physics.ucsd.edu/phys139_239/lectures/15_Model_Compression.pdf">Lecture 15: Model compression</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://jduarte.physics.ucsd.edu/phys139_239/lectures/16_Knowledge_Distillation.pdf">Lecture 16: Knowledge distillation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08_Compression.html">Hands-on 08: Model Compression</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Week 9</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://jduarte.physics.ucsd.edu/phys139_239/lectures/17_Generative_Modeling.pdf">(Guest) Lecture 17: Generative modeling by Dr. Benjamin Nachman</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://jduarte.physics.ucsd.edu/phys139_239/lectures/18_Equivariant_NNs.pdf">(Guest) Lecture 18: Equivariant neural networks by Prof. Rose Yu and Jianke Yang</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Week 10</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://jduarte.physics.ucsd.edu/phys139_239/lectures/19_PINNs.pdf">(Guest) Lecture 19: Physics-informed neural networks by Dr. Amir Gholami</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Finals Week</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="finalprojects.html">Final Projects</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">References</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="zreferences.html">References</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/jmduarte/phys139_239/main?urlpath=tree/notebooks/01b_Debugging.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://datahub.ucsd.edu/hub/user-redirect/git-pull?repo=https%3A//github.com/jmduarte/phys139_239&urlpath=tree/phys139_239/notebooks/01b_Debugging.ipynb&branch=main" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on JupyterHub"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="JupyterHub logo" src="_static/images/logo_jupyterhub.svg">
+  </span>
+<span class="btn__text-container">JupyterHub</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/jmduarte/phys139_239/blob/main/notebooks/01b_Debugging.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/jmduarte/phys139_239" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/jmduarte/phys139_239/issues/new?title=Issue%20on%20page%20%2F01b_Debugging.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/01b_Debugging.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Hands-on 01b: Debugging</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#know-what-it-s-supposed-to-do">Know What It’s Supposed to Do</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#make-it-fail-every-time">Make It Fail Every Time</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#make-it-fail-fast">Make It Fail Fast</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#change-one-thing-at-a-time-for-a-reason">Change One Thing at a Time, For a Reason</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#keep-track-of-what-you-ve-done">Keep Track of What You’ve Done</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#version-control-revisited">Version Control Revisited</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#be-humble">Be Humble</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#debug-with-a-neighbor">Debug With a Neighbor</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#not-supposed-to-be-the-same">Not Supposed to be the Same</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="hands-on-01b-debugging">
+<h1>Hands-on 01b: Debugging<a class="headerlink" href="#hands-on-01b-debugging" title="Link to this heading">#</a></h1>
+<p>Once testing has uncovered problems, the next step is to fix them.
+Many novices do this by making more-or-less random changes to their code until it seems to produce the right answer, but that’s very inefficient (and the result is usually only correct for the one case they’re testing).
+The more experienced a programmer is, the more systematically they debug, and most follow some variation on the rules explained below.</p>
+<section id="know-what-it-s-supposed-to-do">
+<h2>Know What It’s Supposed to Do<a class="headerlink" href="#know-what-it-s-supposed-to-do" title="Link to this heading">#</a></h2>
+<p>The first step in debugging something is to
+<em>know what it’s supposed to do</em>.
+“My program doesn’t work” isn’t good enough:
+in order to diagnose and fix problems,
+we need to be able to tell correct output from incorrect.
+If we can write a test case for the failing case — i.e.,
+if we can assert that with <em>these</em> inputs,
+the function should produce <em>that</em> result —
+then we’re ready to start debugging.
+If we can’t,
+then we need to figure out how we’re going to know when we’ve fixed things.</p>
+<p>But writing test cases for scientific software is frequently harder than
+writing test cases for commercial applications,
+because if we knew what the output of the scientific code was supposed to be,
+we wouldn’t be running the software:
+we’d be writing up our results and moving on to the next program.
+In practice,
+scientists tend to do the following:</p>
+<ol class="arabic simple">
+<li><p><em>Test with simplified data.</em>
+Before doing statistics on a real data set,
+we should try calculating statistics for a single record,
+for two identical records,
+for two records whose values are one step apart,
+or for some other case where we can calculate the right answer by hand.</p></li>
+<li><p><em>Test a simplified case.</em>
+If our program is supposed to simulate
+magnetic eddies in rapidly-rotating blobs of supercooled helium,
+our first test should be a blob of helium that isn’t rotating,
+and isn’t being subjected to any external electromagnetic fields.
+Similarly,
+if we’re looking at the effects of climate change on speciation,
+our first test should hold temperature, precipitation, and other factors constant.</p></li>
+<li><p><em>Compare to an oracle.</em>
+A [test oracle](/reference.html#test-oracle)
+is something whose results are trusted,
+such as experimental data, an older program, or a human expert.
+We use test oracles to determine if our new program produces the correct results.
+If we have a test oracle,
+we should store its output for particular cases
+so that we can compare it with our new results as often as we like
+without re-running that program.</p></li>
+<li><p><em>Check conservation laws.</em>
+Mass, energy, and other quantities are conserved in physical systems,
+so they should be in programs as well.
+Similarly,
+if we are analyzing patient data,
+the number of records should either stay the same or decrease
+as we move from one analysis to the next
+(since we might throw away outliers or records with missing values).
+If “new” patients start appearing out of nowhere as we move through our pipeline,
+it’s probably a sign that something is wrong.</p></li>
+<li><p><em>Visualize.</em>
+Data analysts frequently use simple visualizations to check both
+the science they’re doing
+and the correctness of their code
+(just as we did in the [opening lesson](/01-numpy/) of this tutorial).
+This should only be used for debugging as a last resort,
+though,
+since it’s very hard to compare two visualizations automatically.</p></li>
+</ol>
+</section>
+<section id="make-it-fail-every-time">
+<h2>Make It Fail Every Time<a class="headerlink" href="#make-it-fail-every-time" title="Link to this heading">#</a></h2>
+<p>We can only debug something when it fails,
+so the second step is always to find a test case that
+<em>makes it fail every time</em>.
+The “every time” part is important because
+few things are more frustrating than debugging an intermittent problem:
+if we have to call a function a dozen times to get a single failure,
+the odds are good that we’ll scroll past the failure when it actually occurs.</p>
+<p>As part of this,
+it’s always important to check that our code is “plugged in”,
+i.e.,
+that we’re actually exercising the problem that we think we are.
+Every programmer has spent hours chasing a bug,
+only to realize that they were actually calling their code on the wrong data set
+or with the wrong configuration parameters,
+or are using the wrong version of the software entirely.
+Mistakes like these are particularly likely to happen when we’re tired,
+frustrated,
+and up against a deadline,
+which is one of the reasons late-night (or overnight) coding sessions
+are almost never worthwhile.</p>
+</section>
+<section id="make-it-fail-fast">
+<h2>Make It Fail Fast<a class="headerlink" href="#make-it-fail-fast" title="Link to this heading">#</a></h2>
+<p>If it takes 20 minutes for the bug to surface,
+we can only do three experiments an hour.
+This means that we’ll get less data in more time and that
+we’re more likely to be distracted by other things as we wait for our program to fail,
+which means the time we <em>are</em> spending on the problem is less focused.
+It’s therefore critical to <em>make it fail fast</em>.</p>
+<p>As well as making the program fail fast in time,
+we want to make it fail fast in space,
+i.e.,
+we want to localize the failure to the smallest possible region of code:</p>
+<ol class="arabic simple">
+<li><p>The smaller the gap between cause and effect,
+the easier the connection is to find.
+Many programmers therefore use a divide and conquer strategy to find bugs,
+i.e.,
+if the output of a function is wrong,
+they check whether things are OK in the middle,
+then concentrate on either the first or second half,
+and so on.</p></li>
+<li><p><span class="math notranslate nohighlight">\(N\)</span> things can interact in <span class="math notranslate nohighlight">\(N!\)</span> different ways,
+so every line of code that <em>isn’t</em> run as part of a test
+means more than one thing we don’t need to worry about.</p></li>
+</ol>
+</section>
+<section id="change-one-thing-at-a-time-for-a-reason">
+<h2>Change One Thing at a Time, For a Reason<a class="headerlink" href="#change-one-thing-at-a-time-for-a-reason" title="Link to this heading">#</a></h2>
+<p>Replacing random chunks of code is unlikely to do much good.
+(After all,
+if you got it wrong the first time,
+you’ll probably get it wrong the second and third as well.)
+Good programmers therefore
+<em>change one thing at a time, for a reason</em>.
+They are either trying to gather more information
+(“is the bug still there if we change the order of the loops?”)
+or test a fix
+(“can we make the bug go away by sorting our data before processing it?”).</p>
+<p>Every time we make a change,
+however small,
+we should re-run our tests immediately,
+because the more things we change at once,
+the harder it is to know what’s responsible for what
+(those N! interactions again).
+And we should re-run <em>all</em> of our tests:
+more than half of fixes made to code introduce (or re-introduce) bugs,
+so re-running all of our tests tells us whether we have regressed.</p>
+</section>
+<section id="keep-track-of-what-you-ve-done">
+<h2>Keep Track of What You’ve Done<a class="headerlink" href="#keep-track-of-what-you-ve-done" title="Link to this heading">#</a></h2>
+<p>Good scientists keep track of what they’ve done
+so that they can reproduce their work,
+and so that they don’t waste time repeating the same experiments
+or running ones whose results won’t be interesting.
+Similarly,
+debugging works best when we
+<em>keep track of what we’ve done</em>
+and how well it worked.
+If we find ourselves asking,
+“Did left followed by right with an odd number of lines cause the crash?
+Or was it right followed by left?
+Or was I using an even number of lines?”
+then it’s time to step away from the computer,
+take a deep breath,
+and start working more systematically.</p>
+<p>Records are particularly useful when the time comes to ask for help.
+People are more likely to listen to us
+when we can explain clearly what we did,
+and we’re better able to give them the information they need to be useful.</p>
+<section id="version-control-revisited">
+<h3>Version Control Revisited<a class="headerlink" href="#version-control-revisited" title="Link to this heading">#</a></h3>
+<p>Version control is often used to reset software to a known state during debugging,
+and to explore recent changes to code that might be responsible for bugs.
+In particular,
+most version control systems (e.g. git, Mercurial) have:</p>
+<ol class="arabic simple">
+<li><p>a <code class="docutils literal notranslate"><span class="pre">blame</span></code> command that shows who last changed each line of a file;</p></li>
+<li><p>a <code class="docutils literal notranslate"><span class="pre">bisect</span></code> command that helps with finding the commit that introduced an
+issue.</p></li>
+</ol>
+</section>
+</section>
+<section id="be-humble">
+<h2>Be Humble<a class="headerlink" href="#be-humble" title="Link to this heading">#</a></h2>
+<p>And speaking of help:
+if we can’t find a bug in 10 minutes,
+we should <em>be humble</em> and ask for help.
+Explaining the problem to someone else is often useful,
+since hearing what we’re thinking helps us spot inconsistencies and hidden assumptions.
+If you don’t have someone nearby to share your problem description with, get a
+<a class="reference external" href="https://en.wikipedia.org/wiki/Rubber_duck_debugging">rubber duck</a>!</p>
+<p>Asking for help also helps alleviate confirmation bias.
+If we have just spent an hour writing a complicated program,
+we want it to work,
+so we’re likely to keep telling ourselves why it should,
+rather than searching for the reason it doesn’t.
+People who aren’t emotionally invested in the code can be more objective,
+which is why they’re often able to spot the simple mistakes we have overlooked.</p>
+<p>Part of being humble is learning from our mistakes.
+Programmers tend to get the same things wrong over and over:
+either they don’t understand the language and libraries they’re working with,
+or their model of how things work is wrong.
+In either case,
+taking note of why the error occurred
+and checking for it next time
+quickly turns into not making the mistake at all.</p>
+<p>And that is what makes us most productive in the long run.
+As the saying goes,
+<em>A week of hard work can sometimes save you an hour of thought</em>.
+If we train ourselves to avoid making some kinds of mistakes,
+to break our code into modular, testable chunks,
+and to turn every assumption (or mistake) into an assertion,
+it will actually take us <em>less</em> time to produce working programs,
+not more.</p>
+<section id="debug-with-a-neighbor">
+<h3>Debug With a Neighbor<a class="headerlink" href="#debug-with-a-neighbor" title="Link to this heading">#</a></h3>
+<p>Take a function that you have written today, and introduce a tricky bug.
+Your function should still run, but will give the wrong output.
+Switch seats with your neighbor and attempt to debug the bug that they introduced into their function.
+Which of the principles discussed above did you find helpful?</p>
+<section id="not-supposed-to-be-the-same">
+<h4>Not Supposed to be the Same<a class="headerlink" href="#not-supposed-to-be-the-same" title="Link to this heading">#</a></h4>
+<p>You are assisting a researcher with Python code that computes the
+body mass index (BMI) of patients.
+The researcher is concerned because all patients seemingly have unusual and identical BMIs, despite having different physiques.
+BMI is calculated as <strong>weight in kilograms</strong> divided by the square of <strong>height in meters</strong>.</p>
+<p>Use the debugging principles in this exercise and locate problems with the code.
+What suggestions would you give the researcher for ensuring any later changes they make work correctly?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">patients</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">70</span><span class="p">,</span> <span class="mf">1.8</span><span class="p">],</span> <span class="p">[</span><span class="mi">80</span><span class="p">,</span> <span class="mf">1.9</span><span class="p">],</span> <span class="p">[</span><span class="mi">150</span><span class="p">,</span> <span class="mf">1.7</span><span class="p">]]</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">patients</span><span class="p">)):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Patient </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">patients</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">calculate_bmi</span><span class="p">(</span><span class="n">weight</span><span class="p">,</span> <span class="n">height</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">weight</span> <span class="o">/</span> <span class="p">(</span><span class="n">height</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+
+<span class="k">for</span> <span class="n">patient</span> <span class="ow">in</span> <span class="n">patients</span><span class="p">:</span>
+    <span class="n">weight</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="n">patients</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">bmi</span> <span class="o">=</span> <span class="n">calculate_bmi</span><span class="p">(</span><span class="n">height</span><span class="p">,</span> <span class="n">weight</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Patient&#39;s BMI is: </span><span class="si">{</span><span class="n">bmi</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Patient 0: [70, 1.8]
+Patient 1: [80, 1.9]
+Patient 2: [150, 1.7]
+Patient&#39;s BMI is: 7.555555555555556e-05
+Patient&#39;s BMI is: 7.555555555555556e-05
+Patient&#39;s BMI is: 7.555555555555556e-05
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="01a_Introduction.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Hands-on 01a: Introduction</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="02_Tabular_Data_BDT.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Hands-on 02: Tabular data and BDTs: Classifying LHC collisions</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#know-what-it-s-supposed-to-do">Know What It’s Supposed to Do</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#make-it-fail-every-time">Make It Fail Every Time</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#make-it-fail-fast">Make It Fail Fast</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#change-one-thing-at-a-time-for-a-reason">Change One Thing at a Time, For a Reason</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#keep-track-of-what-you-ve-done">Keep Track of What You’ve Done</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#version-control-revisited">Version Control Revisited</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#be-humble">Be Humble</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#debug-with-a-neighbor">Debug With a Neighbor</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#not-supposed-to-be-the-same">Not Supposed to be the Same</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Javier Duarte
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
