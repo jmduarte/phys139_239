@@ -59,6 +59,7 @@ jobs:
 
       - name: Copy syllabus and homework for deployment
         run: |
+          ls -lhaR notebooks
           cp syllabus/syllabus.pdf notebooks/_build/html/syllabus.pdf && \
           cp homeworks/homework_1/homework_1.pdf notebooks/_build/html/homework_1.pdf && \
           cp homeworks/homework_2/homework_2.pdf notebooks/_build/html/homework_2.pdf && \
