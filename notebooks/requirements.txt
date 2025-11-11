@@ -1,23 +1,23 @@
 gdown
 ipywidgets
 jetnet
-jupyter-book
+jupyter-book<2
 jupyter_contrib_nbextensions
 matplotlib
 mplhep
 numpy
 pandas
-pyg-lib -f https://data.pyg.org/whl/torch-2.6.0+cpu.html
+pyg-lib -f https://data.pyg.org/whl/torch-2.2.1+cpu.html
 requests
 scikit-learn
 spektral
 tensorflow
-torch==2.6.0
-torch-cluster -f https://data.pyg.org/whl/torch-2.6.0+cpu.html
-torch-geometric -f https://data.pyg.org/whl/torch-2.6.0+cpu.html
-torch-scatter -f https://data.pyg.org/whl/torch-2.6.0+cpu.html
-torch-sparse -f https://data.pyg.org/whl/torch-2.6.0+cpu.html
-torch-spline-conv -f https://data.pyg.org/whl/torch-2.6.0+cpu.html
+torch==2.2.1
+torch-cluster -f https://data.pyg.org/whl/torch-2.2.1+cpu.html
+torch-geometric -f https://data.pyg.org/whl/torch-2.2.1+cpu.html
+torch-scatter -f https://data.pyg.org/whl/torch-2.2.1+cpu.html
+torch-sparse -f https://data.pyg.org/whl/torch-2.2.1+cpu.html
+torch-spline-conv -f https://data.pyg.org/whl/torch-2.2.1+cpu.html
 widgetsnbextension
 xgboost
 zenodo_get
