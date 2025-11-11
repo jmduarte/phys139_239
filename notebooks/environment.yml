@@ -19,7 +19,7 @@ dependencies:
     - mplhep
     - tqdm
     - xgboost
-    - jupyter-book
+    - jupyter-book<2
     - pip
     - pip:
       - jetnet
