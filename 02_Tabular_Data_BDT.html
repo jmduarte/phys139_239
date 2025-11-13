@@ -1,0 +1,1369 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Hands-on 02: Tabular data and BDTs: Classifying LHC collisions &#8212; UCSD PHYS 139/239</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '02_Tabular_Data_BDT';</script>
+    <link rel="canonical" href="https://jduarte.physics.ucsd.edu/phys139_239/02_Tabular_Data_BDT.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Hands-on 03: Tabular data and NNs: Classifying particle jets" href="03_Tabular_Data_NN.html" />
+    <link rel="prev" title="Hands-on 01b: Debugging" href="01b_Debugging.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="README.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/quark_gluon.png" class="logo__image only-light" alt="UCSD PHYS 139/239 - Home"/>
+    <script>document.write(`<img src="_static/quark_gluon.png" class="logo__image only-dark" alt="UCSD PHYS 139/239 - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="README.html">
+                    UCSD PHYS 139/239: Machine Learning in Physics
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Week 1</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://jduarte.physics.ucsd.edu/phys139_239/lectures/01_Introduction.pdf">Lecture 01: Introduction</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://jduarte.physics.ucsd.edu/phys139_239/lectures/02_Perceptron_SGD.pdf">Lecture 02: Perceptron and stochastic gradient descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01a_Introduction.html">Hands-on 01a: Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01b_Debugging.html">Hands-on 01b: Debugging</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://jduarte.physics.ucsd.edu/phys139_239/homework_1.pdf">Homework 1 (due Week 2)</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Week 2</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://jduarte.physics.ucsd.edu/phys139_239/lectures/03_SVM_Logistic.pdf">Lecture 03: Support vector machine and logistic regression</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://jduarte.physics.ucsd.edu/phys139_239/lectures/04_Trees.pdf">Lecture 04: (Boosted) decision trees</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Hands-on 02: Tabular data and BDTs: Classifying LHC collisions</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Week 3</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://jduarte.physics.ucsd.edu/phys139_239/lectures/05_Neural_Networks.pdf">Lecture 05: Neural networks</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://jduarte.physics.ucsd.edu/phys139_239/lectures/06_Optimizers.pdf">Lecture 06: Optimizing neural networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_Tabular_Data_NN.html">Hands-on 03: Tabular data and NNs: Classifying particle jets</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://jduarte.physics.ucsd.edu/phys139_239/homework_2.pdf">Homework 2 (due Week 4)</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Week 4</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://jduarte.physics.ucsd.edu/phys139_239/lectures/07_CNNs.pdf">Lecture 07: Convolutional neural networks</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://jduarte.physics.ucsd.edu/phys139_239/lectures/08_Advanced_CNNs.pdf">Lecture 08: Advanced convolutional neural networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_Image_Data_CNN.html">Hands-on 04: Image data and CNNs: Classifying astronomical images</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Week 5</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://jduarte.physics.ucsd.edu/phys139_239/lectures/09_Time_Series_RNNs.pdf">Lecture 09: Time series and recurrent neural networks</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://jduarte.physics.ucsd.edu/phys139_239/lectures/10_More_RNNs.pdf">Lecture 10: More recurrent neural networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_Time_Series_Data_RNN.html">Hands-on 05: Time series data and RNNs: Identifying cosmic rays in radio signals</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://jduarte.physics.ucsd.edu/phys139_239/homework_3.pdf">Homework 3 (due Week 6)</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Week 6</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://jduarte.physics.ucsd.edu/phys139_239/lectures/11_GNNs.pdf">Lecture 11: Graph neural networks</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://jduarte.physics.ucsd.edu/phys139_239/lectures/12_More_GNNs.pdf">Lecture 12: More graph neural networks and transformers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_Graph_Data_GNN.html">Hands-on 06: Graph data and GNNs: Tagging Higgs boson jets</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Week 7</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://jduarte.physics.ucsd.edu/phys139_239/lectures/13_Unsupervised.pdf">Lecture 13: Unsupervised learning</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://jduarte.physics.ucsd.edu/phys139_239/lectures/14_More_Autoencoders.pdf">Lecture 14: More autoencoers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_Autoencoder.html">Hands-on 07: Autoencoders for anomaly detection</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://jduarte.physics.ucsd.edu/phys139_239/homework_4.pdf">Homework 4 (due Week 8)</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Week 8</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://jduarte.physics.ucsd.edu/phys139_239/lectures/15_Model_Compression.pdf">Lecture 15: Model compression</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://jduarte.physics.ucsd.edu/phys139_239/lectures/16_Knowledge_Distillation.pdf">Lecture 16: Knowledge distillation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08_Compression.html">Hands-on 08: Model Compression</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Week 9</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://jduarte.physics.ucsd.edu/phys139_239/lectures/17_Generative_Modeling.pdf">(Guest) Lecture 17: Generative modeling by Dr. Benjamin Nachman</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://jduarte.physics.ucsd.edu/phys139_239/lectures/18_Equivariant_NNs.pdf">(Guest) Lecture 18: Equivariant neural networks by Prof. Rose Yu and Jianke Yang</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Week 10</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://jduarte.physics.ucsd.edu/phys139_239/lectures/19_PINNs.pdf">(Guest) Lecture 19: Physics-informed neural networks by Dr. Amir Gholami</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Finals Week</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="finalprojects.html">Final Projects</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">References</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="zreferences.html">References</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/jmduarte/phys139_239/main?urlpath=tree/notebooks/02_Tabular_Data_BDT.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://datahub.ucsd.edu/hub/user-redirect/git-pull?repo=https%3A//github.com/jmduarte/phys139_239&urlpath=tree/phys139_239/notebooks/02_Tabular_Data_BDT.ipynb&branch=main" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on JupyterHub"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="JupyterHub logo" src="_static/images/logo_jupyterhub.svg">
+  </span>
+<span class="btn__text-container">JupyterHub</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/jmduarte/phys139_239/blob/main/notebooks/02_Tabular_Data_BDT.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/jmduarte/phys139_239" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/jmduarte/phys139_239/issues/new?title=Issue%20on%20page%20%2F02_Tabular_Data_BDT.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/02_Tabular_Data_BDT.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Hands-on 02: Tabular data and BDTs: Classifying LHC collisions</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#goal">Goal</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#boosted-decision-tree-library-xgboost">Boosted decision tree library: XGBoost</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data">Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-handling">Data handling</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-xgboost">Installing XGBoost</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#links">Links</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#xgboost-tutorial">XGBoost Tutorial</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Data</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#load-data">Load data</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#detailed-description-of-features">Detailed description of features</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#visualize-the-features">Visualize the features:</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#format-data">Format data:</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#make-the-model">Make the model</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#set-hyperparameters">Set hyperparameters:</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#now-train">Now train!</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluate">Evaluate:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-retrain-bdt-with-2-features-and-plot-decision-boundary">Exercise: Retrain BDT with 2 features and plot decision boundary</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="hands-on-02-tabular-data-and-bdts-classifying-lhc-collisions">
+<h1>Hands-on 02: Tabular data and BDTs: Classifying LHC collisions<a class="headerlink" href="#hands-on-02-tabular-data-and-bdts-classifying-lhc-collisions" title="Link to this heading">#</a></h1>
+<section id="goal">
+<h2>Goal<a class="headerlink" href="#goal" title="Link to this heading">#</a></h2>
+<p>Discriminate <span class="math notranslate nohighlight">\(H\to\tau\tau\)</span> (signal) from background such as <span class="math notranslate nohighlight">\(t\bar{t}\)</span>.</p>
+<p>Signal:</p>
+<p><img alt="" src="_images/Htautau.png" /></p>
+<p>Example background:</p>
+<p><img alt="" src="_images/ttbar.png" /></p>
+<p>In a real detector, the signal looks like:</p>
+<img src="https://atlas.web.cern.ch/Atlas/GROUPS/PHYSICS/PAPERS/HIGG-2012-07/figaux_17.png" width=500/>
+</section>
+<section id="boosted-decision-tree-library-xgboost">
+<h2>Boosted decision tree library: XGBoost<a class="headerlink" href="#boosted-decision-tree-library-xgboost" title="Link to this heading">#</a></h2>
+<p>We’ll use the python API for the <a class="reference external" href="https://github.com/dmlc/xgboost">XGBoost (eXtreme Gradient Boosting) library</a>.</p>
+</section>
+<section id="data">
+<h2>Data<a class="headerlink" href="#data" title="Link to this heading">#</a></h2>
+<p><a class="reference external" href="https://home.cern/about/experiments/atlas">ATLAS</a> hosted a <a class="reference external" href="https://www.kaggle.com/">Kaggle</a> competition for identifying <span class="math notranslate nohighlight">\(H\to\tau\tau\)</span> events, <a class="reference external" href="https://www.kaggle.com/c/higgs-boson/data">the Higgs Boson Machine Learning Challenge</a>.
+The training data for this event contains 250,000 labeled, simulated ATLAS events in <code class="docutils literal notranslate"><span class="pre">csv</span></code> format described <a class="reference external" href="https://www.kaggle.com/c/higgs-boson/data">here</a> and <a class="reference external" href="https://higgsml.lal.in2p3.fr/files/2014/04/documentation_v1.8.pdf">here</a>.
+You can download it yourself, but we will only play with a small subset (10k events).</p>
+</section>
+<section id="data-handling">
+<h2>Data handling<a class="headerlink" href="#data-handling" title="Link to this heading">#</a></h2>
+<p>We’ll use <a class="reference external" href="http://pandas.pydata.org/">Pandas</a>.</p>
+</section>
+<section id="installing-xgboost">
+<h2>Installing XGBoost<a class="headerlink" href="#installing-xgboost" title="Link to this heading">#</a></h2>
+<p>Assuming you have Python, NumPy, Matplotlib, and Pandas installed, you may need to install XGBoost if it’s not already installed.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>xgboost<span class="w"> </span>--user
+</pre></div>
+</div>
+</section>
+<section id="links">
+<h2>Links<a class="headerlink" href="#links" title="Link to this heading">#</a></h2>
+<p>A lot of this was borrowed from other sources.
+These sources and other good places for information about XGBoost and BDTs in general are here:</p>
+<ul class="simple">
+<li><p>XGBoost demo: <a class="reference external" href="https://github.com/dmlc/xgboost/tree/master/demo/kaggle-higgs">Example of how to use XGBoost Python module to run Kaggle Higgs competition</a></p></li>
+<li><p>Blog post by phunther: <a class="reference external" href="https://no2147483647.wordpress.com/2014/09/17/winning-solution-of-kaggle-higgs-competition-what-a-single-model-can-do/">Winning solution of Kaggle Higgs competition: what a single model can do?</a></p></li>
+<li><p>XGBoost Kaggle Higgs solution: <a class="github reference external" href="https://github.com/hetong007/higgsml">hetong007/higgsml</a></p></li>
+</ul>
+</section>
+<section id="xgboost-tutorial">
+<h2>XGBoost Tutorial<a class="headerlink" href="#xgboost-tutorial" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xgboost</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xgb</span>
+
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+</div>
+</div>
+</div>
+<section id="id1">
+<h3>Data<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<section id="load-data">
+<h4>Load data<a class="headerlink" href="#load-data" title="Link to this heading">#</a></h4>
+<p>First, load in the data and look at it.
+We will download a 10k event subsample of the Kaggle training data.
+Then we’ll put it in the right format for XGBoost.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span><span class="w"> </span>wget<span class="w"> </span>https://raw.githubusercontent.com/k-woodruff/bdt-tutorial/master/data/training_10k.csv<span class="w"> </span>-O<span class="w"> </span>data/training_10k.csv
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--2025-11-13 19:51:42--  https://raw.githubusercontent.com/k-woodruff/bdt-tutorial/master/data/training_10k.csv
+Resolving raw.githubusercontent.com (raw.githubusercontent.com)... 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>185.199.111.133, 185.199.109.133, 185.199.108.133, ...
+Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|185.199.111.133|:443... connected.
+HTTP request sent, awaiting response... 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>200 OK
+Length: 2210243 (2.1M) [text/plain]
+Saving to: ‘data/training_10k.csv’
+
+
+data/training_10k.c   0%[                    ]       0  --.-KB/s               
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>data/training_10k.c 100%[===================&gt;]   2.11M  --.-KB/s    in 0.01s   
+
+2025-11-13 19:51:42 (195 MB/s) - ‘data/training_10k.csv’ saved [2210243/2210243]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data/training_10k.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s see what the data looks like:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Size of data: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of events: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of columns: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">List of features in dataset:&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Size of data: (10000, 33)
+Number of events: 10000
+Number of columns: 33
+
+List of features in dataset:
+EventId
+DER_mass_MMC
+DER_mass_transverse_met_lep
+DER_mass_vis
+DER_pt_h
+DER_deltaeta_jet_jet
+DER_mass_jet_jet
+DER_prodeta_jet_jet
+DER_deltar_tau_lep
+DER_pt_tot
+DER_sum_pt
+DER_pt_ratio_lep_tau
+DER_met_phi_centrality
+DER_lep_eta_centrality
+PRI_tau_pt
+PRI_tau_eta
+PRI_tau_phi
+PRI_lep_pt
+PRI_lep_eta
+PRI_lep_phi
+PRI_met
+PRI_met_phi
+PRI_met_sumet
+PRI_jet_num
+PRI_jet_leading_pt
+PRI_jet_leading_eta
+PRI_jet_leading_phi
+PRI_jet_subleading_pt
+PRI_jet_subleading_eta
+PRI_jet_subleading_phi
+PRI_jet_all_pt
+Weight
+Label
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="detailed-description-of-features">
+<h3>Detailed description of features<a class="headerlink" href="#detailed-description-of-features" title="Link to this heading">#</a></h3>
+<p>Prefix-less variables <code class="docutils literal notranslate"><span class="pre">EventId</span></code>, <code class="docutils literal notranslate"><span class="pre">Weight</span></code>, and <code class="docutils literal notranslate"><span class="pre">Label</span></code> have a special role and should not be used as input to the classifier.
+The variables prefixed with PRI (for PRImitives) are “raw” quantities about the bunch collision as measured by the detector, essentially the momenta of particles.
+Variables prefixed with DER (for DERived) are quantities computed from the primitive features.
+These quantities were selected by the physicists of ATLAS in the reference document either to select regions of interest or as features for the Boosted Decision Trees used in this analysis.
+In addition:</p>
+<ul class="simple">
+<li><p>Variables are floating point unless specified otherwise.</p></li>
+<li><p>All azimuthal <span class="math notranslate nohighlight">\(\phi\)</span> angles are in radian in the <span class="math notranslate nohighlight">\([-\pi, +\pi]\)</span> range.</p></li>
+<li><p>Energy, mass, momentum are all in GeV</p></li>
+<li><p>All other variables are unitless.</p></li>
+<li><p>Variables are indicated as “may be undefined” when it can happen that they are meaningless or cannot be computed; in this case, their value is −999.0, which is outside the normal range of all variables.</p></li>
+<li><p>The mass of particles has not been provided, as it can safely be neglected for the Challenge.</p></li>
+</ul>
+<p>Features:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">EventId</span></code>: An unique integer identifier of the event.
+Not to be used as a feature.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DER_mass_MMC</span></code>: The estimated mass <span class="math notranslate nohighlight">\(m_H\)</span> of the Higgs boson candidate, obtained through a probabilistic phase space integration (may be undefined if the topology of the event is too far from the expected topology)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DER_mass_transverse_met_lep</span></code>: The transverse mass (21) between the missing transverse energy and the lepton.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DER_mass_vis</span></code>: The invariant mass (20) of the hadronic tau and the lepton.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DER_pt_h</span></code>: The modulus (19) of the vector sum of the transverse momentum of the hadronic tau, the lepton, and the missing transverse energy vector.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DER_deltaeta_jet_jet</span></code>: The absolute value of the pseudorapidity separation (22) between the
+two jets (undefined if <code class="docutils literal notranslate"><span class="pre">PRI_jet_num</span></code> <span class="math notranslate nohighlight">\(\leq 1\)</span>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DER_mass_jet_jet</span></code>: The invariant mass (20) of the two jets (undefined if <code class="docutils literal notranslate"><span class="pre">PRI_jet_num</span></code> <span class="math notranslate nohighlight">\(\leq 1\)</span>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DER_prodeta_jet_jet</span></code>: The product of the pseudorapidities of the two jets (undefined if <code class="docutils literal notranslate"><span class="pre">PRI_jet_num</span></code> <span class="math notranslate nohighlight">\(\leq 1\)</span>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DER_deltar_tau_lep</span></code>: The R separation (23) between the hadronic tau and the lepton.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DER_pt_tot</span></code>: The modulus (19) of the vector sum of the missing transverse momenta and the transverse momenta of the hadronic tau, the lepton, the leading jet (if <code class="docutils literal notranslate"><span class="pre">PRI_jet_num</span></code> <span class="math notranslate nohighlight">\(\geq 1\)</span>) and the subleading jet (if <code class="docutils literal notranslate"><span class="pre">PRI_jet_num</span></code> <span class="math notranslate nohighlight">\(= 2\)</span>) (but not of any additional jets).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DER_sum_pt</span></code>: The sum of the moduli (19) of the transverse momenta of the hadronic tau, the lepton, the leading jet (if <code class="docutils literal notranslate"><span class="pre">PRI_jet_num</span></code> <span class="math notranslate nohighlight">\(\geq 1\)</span>) and the subleading jet (if <code class="docutils literal notranslate"><span class="pre">PRI_jet_num</span></code> <span class="math notranslate nohighlight">\(= 2\)</span>) and the other jets (if <code class="docutils literal notranslate"><span class="pre">PRI_jet_num</span></code> <span class="math notranslate nohighlight">\(= 3\)</span>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DER_pt_ratio_lep_tau</span></code>: The ratio of the transverse momenta of the lepton and the hadronic tau.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DER_met_phi_centrality</span></code>: The centrality of the azimuthal angle of the missing transverse energy vector w.r.t. the hadronic tau and the lepton <span class="math notranslate nohighlight">\(C=\frac{A+B}{A^2 + B^2}\)</span> where <span class="math notranslate nohighlight">\(A = \sin(\phi_\mathrm{met} − \phi_\mathrm{lep})\)</span>, <span class="math notranslate nohighlight">\(B = \sin(\phi_\mathrm{had} − \phi_\mathrm{met})\)</span>, and <span class="math notranslate nohighlight">\(\phi_\mathrm{met}\)</span>, <span class="math notranslate nohighlight">\(\phi_\mathrm{lep}\)</span>, and <span class="math notranslate nohighlight">\(\phi_\mathrm{had}\)</span> are the azimuthal angles of the missing transverse energy vector, the lepton, and the hadronic tau, respectively.
+The centrality is <span class="math notranslate nohighlight">\(\sqrt{2}\)</span> if the missing transverse energy vector <span class="math notranslate nohighlight">\(\vec{E}_\mathrm{T}^\mathrm{miss}\)</span> is on the bisector of the transverse momenta of the lepton and the hadronic tau.
+It decreases to 1 if <span class="math notranslate nohighlight">\(\vec{E}_\mathrm{T}^\mathrm{miss}\)</span> is collinear with one of these vectors and it decreases further to <span class="math notranslate nohighlight">\(-\sqrt{2}\)</span> when <span class="math notranslate nohighlight">\(\vec{E}_\mathrm{T}^\mathrm{miss}\)</span> is exactly opposite to the bisector.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DER_lep_eta_centrality</span></code>: The centrality of the pseudorapidity of the lepton w.r.t. the two jets
+(undefined if <code class="docutils literal notranslate"><span class="pre">PRI_jet_num</span></code> <span class="math notranslate nohighlight">\(\leq 1\)</span>) <span class="math notranslate nohighlight">\(\exp\left [ \frac{-4}{(\eta_1 - \eta_2)^2} \left ( \eta_\mathrm{lep} - \frac{\eta_1+\eta_2}{2} \right)^2 \right]\)</span> where <span class="math notranslate nohighlight">\(\eta_\mathrm{lep}\)</span> is the pseudorapidity of the lepton and <span class="math notranslate nohighlight">\(\eta_1\)</span> and <span class="math notranslate nohighlight">\(\eta_2\)</span> are the pseudorapidities of the two jets.
+The centrality is 1 when the lepton is on the bisector of the two jets, decreases to <span class="math notranslate nohighlight">\(1/e\)</span> when it is collinear to one of the jets, and decreases further to zero at infinity.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PRI_tau_pt</span></code>: The transverse momentum <span class="math notranslate nohighlight">\(\sqrt{p_x^2 + p_y^2}\)</span> of the hadronic tau.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PRI_tau_eta</span></code>: The pseudorapidity <span class="math notranslate nohighlight">\(\eta\)</span> of the hadronic tau.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PRI_tau_phi</span></code>: The azimuth angle <span class="math notranslate nohighlight">\(\phi\)</span> of the hadronic tau.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PRI_lep_pt</span></code>: The transverse momentum <span class="math notranslate nohighlight">\(\sqrt{p_x^2 + p_y^2}\)</span> of the lepton (electron or muon).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PRI_lep_eta</span></code>: The pseudorapidity <span class="math notranslate nohighlight">\(\eta\)</span> of the lepton.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PRI_ep_phi</span></code>: The azimuth angle <span class="math notranslate nohighlight">\(\phi\)</span> of the lepton.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PRI_met</span></code>: The missing transverse energy <span class="math notranslate nohighlight">\(E_\mathrm{T}^\mathrm{miss}\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PRI_met_phi</span></code> The azimuth angle <span class="math notranslate nohighlight">\(\phi\)</span> of the missing transverse energy.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PRI_met_sumet</span></code>: The total transverse energy in the detector.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PRI_jet_num</span></code>: The number of jets (integer with value of 0, 1, 2 or 3; possible larger values have been capped at 3).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PRI_jet_leading_pt</span></code>: The transverse momentum <span class="math notranslate nohighlight">\(\sqrt{p_x^2 + p_y^2}\)</span> of the leading jet, that is the jet with largest transverse momentum (undefined if <code class="docutils literal notranslate"><span class="pre">PRI_jet_num</span></code> <span class="math notranslate nohighlight">\(= 0\)</span>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PRI_jet_leading_eta</span></code>: The pseudorapidity <span class="math notranslate nohighlight">\(\eta\)</span> of the leading jet (undefined if <code class="docutils literal notranslate"><span class="pre">PRI_jet_num</span></code> <span class="math notranslate nohighlight">\(= 0\)</span>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PRI_jet_leading_phi</span></code>: The azimuth angle <span class="math notranslate nohighlight">\(\phi\)</span> of the leading jet (undefined if <code class="docutils literal notranslate"><span class="pre">PRI_jet_num</span></code> <span class="math notranslate nohighlight">\(= 0\)</span>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PRI_jet_subleading_pt</span></code>: The transverse momentum <span class="math notranslate nohighlight">\(\sqrt{p_x^2 + p_y^2}\)</span> of the leading jet, that is, the jet with second largest transverse momentum (undefined if <code class="docutils literal notranslate"><span class="pre">PRI_jet_num</span></code> <span class="math notranslate nohighlight">\(\leq 1\)</span>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PRI_jet_subleading_eta</span></code>: The pseudorapidity <span class="math notranslate nohighlight">\(\eta\)</span> of the subleading jet (undefined if <code class="docutils literal notranslate"><span class="pre">PRI_jet_num</span></code> <span class="math notranslate nohighlight">\(\leq 1\)</span>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PRI_jet_subleading_phi</span></code>: The azimuth angle <span class="math notranslate nohighlight">\(\phi\)</span> of the subleading jet (undefined if <code class="docutils literal notranslate"><span class="pre">PRI_jet_num</span></code> <span class="math notranslate nohighlight">\(\leq 1\)</span>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PRI_jet_all_pt</span></code>: The scalar sum of the transverse momentum of all the jets of the events.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Weight</span></code>: The event weight <span class="math notranslate nohighlight">\(w_i\)</span>, explained in Section 3.3.
+Not to be used as a feature.
+Not available in the test sample.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Label</span></code>: The event label (string) <span class="math notranslate nohighlight">\(y_i \in \{s, b\}\)</span> (<span class="math notranslate nohighlight">\(s\)</span> for signal, <span class="math notranslate nohighlight">\(b\)</span> for background).
+Not to be used as a feature.
+Not available in the test sample.</p></li>
+</ul>
+<p>The data set has 10,000 events with 33 columns each.
+The first column is an identifier, and should not be used as a feature.
+The last two columns <code class="docutils literal notranslate"><span class="pre">Weight</span></code> and <code class="docutils literal notranslate"><span class="pre">Label</span></code>, are the weights and labels from the simulation, and also should not be used as features (this information is all contained in the documentation).</p>
+<p>Now we can look at how many events are signal and background:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># look at column labels --- notice last one is &quot;Label&quot; and first is &quot;EventId&quot; also &quot;Weight&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of signal events: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">Label</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;s&#39;</span><span class="p">])</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of background events: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">Label</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;b&#39;</span><span class="p">])</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Fraction signal: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">Label</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;s&#39;</span><span class="p">])</span><span class="o">/</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">Label</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;s&#39;</span><span class="p">])</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">Label</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;b&#39;</span><span class="p">]))</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of signal events: 3372
+Number of background events: 6628
+Fraction signal: 0.3372
+</pre></div>
+</div>
+</div>
+</div>
+<section id="visualize-the-features">
+<h4>Visualize the features:<a class="headerlink" href="#visualize-the-features" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="mi">80</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">ix</span><span class="p">,</span> <span class="n">ax</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">axs</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)):</span>
+    <span class="n">col</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">ix</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">col</span> <span class="o">==</span> <span class="s2">&quot;Weight&quot;</span> <span class="ow">or</span> <span class="n">col</span> <span class="o">==</span> <span class="s2">&quot;Label&quot;</span><span class="p">:</span>
+        <span class="k">continue</span>
+    <span class="n">signal</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">][</span><span class="n">data</span><span class="o">.</span><span class="n">Label</span> <span class="o">==</span> <span class="s2">&quot;s&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+    <span class="n">mask_signal</span> <span class="o">=</span> <span class="n">signal</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">999</span>
+    <span class="n">background</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">][</span><span class="n">data</span><span class="o">.</span><span class="n">Label</span> <span class="o">==</span> <span class="s2">&quot;b&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+    <span class="n">mask_background</span> <span class="o">=</span> <span class="n">background</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">999</span>
+    <span class="n">xmin</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">background</span><span class="p">[</span><span class="n">mask_background</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">signal</span><span class="p">[</span><span class="n">mask_signal</span><span class="p">]))</span>
+    <span class="n">xmax</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">background</span><span class="p">[</span><span class="n">mask_background</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">signal</span><span class="p">[</span><span class="n">mask_signal</span><span class="p">]))</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">signal</span><span class="p">[</span><span class="n">mask_signal</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="mi">51</span><span class="p">),</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;signal&quot;</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">background</span><span class="p">[</span><span class="n">mask_background</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="mi">51</span><span class="p">),</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;background&quot;</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s2">&quot;major&quot;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure size 640x480 with 0 Axes&gt;
+</pre></div>
+</div>
+<img alt="_images/1c06b9d295ce5e90f095d667696390b0f9261919ebbeca434b6becd556957b87.png" src="_images/1c06b9d295ce5e90f095d667696390b0f9261919ebbeca434b6becd556957b87.png" />
+</div>
+</div>
+</section>
+<section id="format-data">
+<h4>Format data:<a class="headerlink" href="#format-data" title="Link to this heading">#</a></h4>
+<p>Now we should get the data into an XGBoost-friendly format.
+We can create DMatrix objects that will be used to train the BDT model.
+For now, we’ll use all 30 of the features for training.</p>
+<p>First, we’ll slice up the data into training and testing sets.
+Here, we take 20% for the test set, which is arbitrary.</p>
+<p>In this file, all samples are independent and ordered randomly, so we can just grab a chunk.
+Check out <a class="reference external" href="http://scikit-learn.org/stable/modules/cross_validation.html">Scikit-learn Cross-validation</a> for dividing up samples responsibly.</p>
+<p>We can also change the data type of the <code class="docutils literal notranslate"><span class="pre">Label</span></code> column to the Pandas type <code class="docutils literal notranslate"><span class="pre">category</span></code> for easier use later.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;Label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">Label</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;category&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_train</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:</span><span class="mi">8000</span><span class="p">]</span>
+<span class="n">data_test</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">8000</span><span class="p">:]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Check to make sure we did it right:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of training samples: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">data_train</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of testing samples: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">data_test</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of signal events in training set: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">data_train</span><span class="p">[</span><span class="n">data_train</span><span class="o">.</span><span class="n">Label</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;s&#39;</span><span class="p">])</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of background events in training set: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">data_train</span><span class="p">[</span><span class="n">data_train</span><span class="o">.</span><span class="n">Label</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;b&#39;</span><span class="p">])</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;Fraction signal: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">data_train</span><span class="p">[</span><span class="n">data_train</span><span class="o">.</span><span class="n">Label</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;s&#39;</span><span class="p">])</span><span class="o">/</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data_train</span><span class="p">[</span><span class="n">data_train</span><span class="o">.</span><span class="n">Label</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;s&#39;</span><span class="p">])</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">data_train</span><span class="p">[</span><span class="n">data_train</span><span class="o">.</span><span class="n">Label</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;b&#39;</span><span class="p">]))</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of training samples: 8000
+Number of testing samples: 2000
+
+Number of signal events in training set: 2688
+Number of background events in training set: 5312
+Fraction signal: 0.336
+</pre></div>
+</div>
+</div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">DMatrix</span></code> object takes as arguments:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">data</span></code>: the features</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">label</span></code>: <code class="docutils literal notranslate"><span class="pre">1</span></code>/<code class="docutils literal notranslate"><span class="pre">0</span></code> or <code class="docutils literal notranslate"><span class="pre">True</span></code>/<code class="docutils literal notranslate"><span class="pre">False</span></code> for binary data (we have to convert our label to boolean from string <code class="docutils literal notranslate"><span class="pre">&quot;s&quot;</span></code>/<code class="docutils literal notranslate"><span class="pre">&quot;b&quot;</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">missing</span></code>: how missing values are represented (here as <code class="docutils literal notranslate"><span class="pre">-999.0</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">feature_names</span></code>: the names of all the features (optional)</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">feature_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span>  <span class="c1"># we skip the first and last two columns because they are the ID, weight, and label</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">feature_names</span><span class="p">))</span>
+
+<span class="n">train</span> <span class="o">=</span> <span class="n">xgb</span><span class="o">.</span><span class="n">DMatrix</span><span class="p">(</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">data_train</span><span class="p">[</span><span class="n">feature_names</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">data_train</span><span class="o">.</span><span class="n">Label</span><span class="o">.</span><span class="n">cat</span><span class="o">.</span><span class="n">codes</span><span class="p">,</span> <span class="n">missing</span><span class="o">=-</span><span class="mf">999.0</span><span class="p">,</span> <span class="n">feature_names</span><span class="o">=</span><span class="n">feature_names</span>
+<span class="p">)</span>
+<span class="n">test</span> <span class="o">=</span> <span class="n">xgb</span><span class="o">.</span><span class="n">DMatrix</span><span class="p">(</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">data_test</span><span class="p">[</span><span class="n">feature_names</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">data_test</span><span class="o">.</span><span class="n">Label</span><span class="o">.</span><span class="n">cat</span><span class="o">.</span><span class="n">codes</span><span class="p">,</span> <span class="n">missing</span><span class="o">=-</span><span class="mf">999.0</span><span class="p">,</span> <span class="n">feature_names</span><span class="o">=</span><span class="n">feature_names</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>30
+</pre></div>
+</div>
+</div>
+</div>
+<p>Check if we did it right:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of training samples: </span><span class="si">{</span><span class="n">train</span><span class="o">.</span><span class="n">num_row</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of testing samples: </span><span class="si">{</span><span class="n">test</span><span class="o">.</span><span class="n">num_row</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of signal events in training set: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">train</span><span class="o">.</span><span class="n">get_label</span><span class="p">())[</span><span class="mi">0</span><span class="p">])</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of training samples: 8000
+Number of testing samples: 2000
+
+Number of signal events in training set: 2688
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="make-the-model">
+<h3>Make the model<a class="headerlink" href="#make-the-model" title="Link to this heading">#</a></h3>
+<section id="set-hyperparameters">
+<h4>Set hyperparameters:<a class="headerlink" href="#set-hyperparameters" title="Link to this heading">#</a></h4>
+<p>The XGBoost hyperparameters are defined <a class="reference external" href="https://github.com/dmlc/xgboost/blob/master/doc/parameter.md">here</a>.
+For a nice description of what they all mean, and tips on tuning them, see <a class="reference external" href="https://www.analyticsvidhya.com/blog/2016/03/complete-guide-parameter-tuning-xgboost-with-codes-python/">this guide</a>.</p>
+<p>In general, the tunable parameters in XGBoost are the ones you would see in other gradient boosting libraries. Here, they fall into three categories:</p>
+<ol class="arabic simple">
+<li><p>General parameters: e.g., which booster to use, number of threads. We won’t mess with these here.</p></li>
+<li><p>Booster parameters: Tune the actual boosting, e.g., learning rate. These are the ones to optimize.</p></li>
+<li><p>Learning task parameters: Define the objective function and the evaluation metrics.</p></li>
+</ol>
+<p>Here, we will use the defaults for most parameters and just set a few to see how it’s done.
+The parameters are passed in as a dictionary or list of pairs.</p>
+<p>Make the parameter dictionary:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">param</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="n">param</span><span class="p">[</span><span class="s2">&quot;seed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">42</span>  <span class="c1"># set seed for reproducibility</span>
+
+<span class="c1"># Booster parameters</span>
+<span class="n">param</span><span class="p">[</span><span class="s2">&quot;eta&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.1</span>  <span class="c1"># learning rate</span>
+<span class="n">param</span><span class="p">[</span><span class="s2">&quot;max_depth&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span>  <span class="c1"># maximum depth of a tree</span>
+<span class="n">param</span><span class="p">[</span><span class="s2">&quot;subsample&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.8</span>  <span class="c1"># fraction of events to train tree on</span>
+<span class="n">param</span><span class="p">[</span><span class="s2">&quot;colsample_bytree&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.8</span>  <span class="c1"># fraction of features to train tree on</span>
+
+<span class="c1"># Learning task parameters</span>
+<span class="n">param</span><span class="p">[</span><span class="s2">&quot;objective&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;binary:logistic&quot;</span>  <span class="c1"># objective function</span>
+<span class="n">param</span><span class="p">[</span><span class="s2">&quot;eval_metric&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;error&quot;</span>  <span class="c1"># evaluation metric for cross validation, note: last one is used for early stopping</span>
+<span class="n">param</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">param</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+
+<span class="n">num_trees</span> <span class="o">=</span> <span class="mi">100</span>  <span class="c1"># number of trees to make</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>First, we set the booster parameters.
+Again, we just chose a few here to experiment with.
+These are the parameters to tune to optimize your model.
+Generally, there is a trade off between speed and accuracy.</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">eta</span></code> is the learning rate. It determines how much to change the data weights after each boosting iteration. The default is 0.3.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">max_depth</span></code> is the maximum depth of any tree. The default is 6.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">subsample</span></code> is the fraction of events used to train each new tree. These events are randomly sampled each iteration from the whole sample set. The default is 1 (use every event for each tree).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">colsample_bytree</span></code> is the fraction of features available to train each new tree. These features are randomly sampled each iteration from the whole feature set. The default is 1.</p></li>
+</ol>
+<p>Next, we set the learning objective to <code class="docutils literal notranslate"><span class="pre">binary:logistic</span></code>. So, we have two classes that we want to score from 0 to 1.
+The <code class="docutils literal notranslate"><span class="pre">eval_metric</span></code> parameters set what we want to monitor when doing cross validation.
+(We aren’t doing cross validation in this example, but we should be!)
+If you want to watch more than one metric, <code class="docutils literal notranslate"><span class="pre">param</span></code> must be a list of pairs, instead of a dict.
+Otherwise, we would just keep resetting the same parameter.</p>
+<p>Last, we set the number of trees to 100.
+Usually, you would set this number high, and choose a cut off point based on the cross validation.
+The number of trees is the same as the number of iterations.</p>
+</section>
+</section>
+<section id="now-train">
+<h3>Now train!<a class="headerlink" href="#now-train" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">booster</span> <span class="o">=</span> <span class="n">xgb</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">train</span><span class="p">,</span> <span class="n">num_boost_round</span><span class="o">=</span><span class="n">num_trees</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We now have a trained model. The next step is to look at it’s performance and try to improve the model if we need to. We can try to improve it by improving/adding features, adding more training data, using more boosting iterations, or tuning the hyperparameters (ideally in that order).</p>
+<section id="evaluate">
+<h4>Evaluate:<a class="headerlink" href="#evaluate" title="Link to this heading">#</a></h4>
+<p>First, let’s look at how it does on the test set:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">booster</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">test</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0]	eval-error:0.17299999999999999
+</pre></div>
+</div>
+</div>
+</div>
+<p>These are the evaluation metrics that we stored in the parameter set.</p>
+<p>It’s pretty hard to interpret the performance of a classifier from a few number. So, let’s look at the predictions for the entire test set.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predictions</span> <span class="o">=</span> <span class="n">booster</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test</span><span class="p">)</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="n">test</span><span class="o">.</span><span class="n">get_label</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># plot signal and background predictions, separately</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">predictions</span><span class="p">[</span><span class="n">labels</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span> <span class="n">histtype</span><span class="o">=</span><span class="s2">&quot;step&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;firebrick&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Signal&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">predictions</span><span class="p">[</span><span class="o">~</span><span class="n">labels</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span> <span class="n">histtype</span><span class="o">=</span><span class="s2">&quot;step&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;midnightblue&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Background&quot;</span><span class="p">)</span>
+<span class="c1"># make the plot readable</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;BDT prediction&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Events&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/8e4e37280025e45e111274cdd3430a67fd98d987b2d1a2a4d0d6a193a49f6b42.png" src="_images/8e4e37280025e45e111274cdd3430a67fd98d987b2d1a2a4d0d6a193a49f6b42.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">roc_curve</span><span class="p">,</span> <span class="n">auc</span><span class="p">,</span> <span class="n">accuracy_score</span>
+
+<span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">roc_curve</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">predictions</span><span class="p">)</span>
+<span class="n">auc_score</span> <span class="o">=</span> <span class="n">auc</span><span class="p">(</span><span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">)</span>
+<span class="n">acc_score</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">predictions</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">)</span>
+
+<span class="c1"># plot TPR vs. FPR (ROC curve)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blueviolet&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;AUC = </span><span class="si">{</span><span class="n">auc_score</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%, acc. = </span><span class="si">{</span><span class="n">acc_score</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+<span class="c1"># make the plot readable</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;False positive rate&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;True positive rate&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/18ac8d8f3bf3cce9027fea22cefe2dd499a2e2e8f2da5171912922c7a727d913.png" src="_images/18ac8d8f3bf3cce9027fea22cefe2dd499a2e2e8f2da5171912922c7a727d913.png" />
+</div>
+</div>
+<p>It’s also very informative to look at the importance of each feature.
+The “F score” is the number of times each feature is used to split the data over all the trees (times the weight of that tree).</p>
+<p>There is a built-in function in the XGBoost Python API to easily plot this.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">xgb</span><span class="o">.</span><span class="n">plot_importance</span><span class="p">(</span><span class="n">booster</span><span class="p">,</span> <span class="n">grid</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/62b79bab51c88e14744a7676e679eb9915b38aee1d39c7c10f25ce7e69367405.png" src="_images/62b79bab51c88e14744a7676e679eb9915b38aee1d39c7c10f25ce7e69367405.png" />
+</div>
+</div>
+<p>The feature that was used the most was <code class="docutils literal notranslate"><span class="pre">DER_mass_MMC</span></code>.</p>
+<p>We can plot how this feature is distributed for the signal and background.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span>
+    <span class="n">data_test</span><span class="o">.</span><span class="n">DER_mass_MMC</span><span class="p">[</span><span class="n">data_test</span><span class="o">.</span><span class="n">Label</span> <span class="o">==</span> <span class="s2">&quot;s&quot;</span><span class="p">],</span>
+    <span class="n">bins</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span>
+    <span class="n">histtype</span><span class="o">=</span><span class="s2">&quot;step&quot;</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;firebrick&quot;</span><span class="p">,</span>
+    <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Signal&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span>
+    <span class="n">data_test</span><span class="o">.</span><span class="n">DER_mass_MMC</span><span class="p">[</span><span class="n">data_test</span><span class="o">.</span><span class="n">Label</span> <span class="o">==</span> <span class="s2">&quot;b&quot;</span><span class="p">],</span>
+    <span class="n">bins</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span>
+    <span class="n">histtype</span><span class="o">=</span><span class="s2">&quot;step&quot;</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;midnightblue&quot;</span><span class="p">,</span>
+    <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Background&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;DER_mass_MMC&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Events&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/15c46431aaa206cfaef3ce8d185ff8119a73a086997d9e12ceeb1f17ac108a03.png" src="_images/15c46431aaa206cfaef3ce8d185ff8119a73a086997d9e12ceeb1f17ac108a03.png" />
+</div>
+</div>
+<p>This variable is physically significant because it represents an estimate of the Higgs boson mass.
+For signal, it is expected to peak at 125 GeV.
+We can also plot it with one of the next most important features <code class="docutils literal notranslate"><span class="pre">DER_mass_transverse_met_lep</span></code>.
+Note: the exact ranking of features can depend on the random seed and other hyperparameters.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+
+<span class="n">mask_b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data_test</span><span class="o">.</span><span class="n">Label</span> <span class="o">==</span> <span class="s2">&quot;b&quot;</span><span class="p">)</span>
+<span class="n">mask_s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data_test</span><span class="o">.</span><span class="n">Label</span> <span class="o">==</span> <span class="s2">&quot;s&quot;</span><span class="p">)</span>
+
+<span class="n">DER_mass_MMC</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data_test</span><span class="o">.</span><span class="n">DER_mass_MMC</span><span class="p">)</span>
+<span class="n">DER_mass_transverse_met_lep</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data_test</span><span class="o">.</span><span class="n">DER_mass_transverse_met_lep</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">DER_mass_MMC</span><span class="p">[</span><span class="n">mask_b</span><span class="p">],</span>
+    <span class="n">DER_mass_transverse_met_lep</span><span class="p">[</span><span class="n">mask_b</span><span class="p">],</span>
+    <span class="s2">&quot;o&quot;</span><span class="p">,</span>
+    <span class="n">markersize</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;midnightblue&quot;</span><span class="p">,</span>
+    <span class="n">markeredgewidth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
+    <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Background&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">DER_mass_MMC</span><span class="p">[</span><span class="n">mask_s</span><span class="p">],</span>
+    <span class="n">DER_mass_transverse_met_lep</span><span class="p">[</span><span class="n">mask_s</span><span class="p">],</span>
+    <span class="s2">&quot;o&quot;</span><span class="p">,</span>
+    <span class="n">markersize</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;firebrick&quot;</span><span class="p">,</span>
+    <span class="n">markeredgewidth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
+    <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Signal&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">150</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;DER_mass_MMC&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;DER_mass_transverse_met_lep&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">numpoints</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">markerscale</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/80261260cebaffe4fba7cd3d12f2b1e031561afe9a0e30ab89d7fb68c213f333.png" src="_images/80261260cebaffe4fba7cd3d12f2b1e031561afe9a0e30ab89d7fb68c213f333.png" />
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="exercise-retrain-bdt-with-2-features-and-plot-decision-boundary">
+<h2>Exercise: Retrain BDT with 2 features and plot decision boundary<a class="headerlink" href="#exercise-retrain-bdt-with-2-features-and-plot-decision-boundary" title="Link to this heading">#</a></h2>
+<p>Repeat the steps above but manually set the features to just two of the most “important” ones: <code class="docutils literal notranslate"><span class="pre">feature_names</span> <span class="pre">=</span> <span class="pre">[&quot;DER_mass_MMC&quot;,</span> <span class="pre">&quot;DER_mass_transverse_met_lep&quot;]</span></code></p>
+<p>Then use the code below to plot the decision boundary in 2D.</p>
+<ol class="arabic simple">
+<li><p>What do you notice about the shape of the decision boundary?</p></li>
+<li><p>Do you see any evidence of overfitting? How can you prove it? (Hint: consider the training data)</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.colors</span><span class="w"> </span><span class="kn">import</span> <span class="n">ListedColormap</span>
+
+<span class="c1"># first get a mesh grid</span>
+<span class="n">x_grid</span><span class="p">,</span> <span class="n">y_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">1000</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">1000</span><span class="p">))</span>
+<span class="c1"># convert grid into DMatrix</span>
+<span class="n">matrix_grid</span> <span class="o">=</span> <span class="n">xgb</span><span class="o">.</span><span class="n">DMatrix</span><span class="p">(</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">x_grid</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">y_grid</span><span class="o">.</span><span class="n">ravel</span><span class="p">()],</span> <span class="n">missing</span><span class="o">=-</span><span class="mf">999.0</span><span class="p">,</span> <span class="n">feature_names</span><span class="o">=</span><span class="n">feature_names</span>
+<span class="p">)</span>
+<span class="c1"># run prediction for every value in grid</span>
+<span class="n">z_grid</span> <span class="o">=</span> <span class="n">booster</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">matrix_grid</span><span class="p">)</span>
+<span class="c1"># reshape</span>
+<span class="n">z_grid</span> <span class="o">=</span> <span class="n">z_grid</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">x_grid</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="c1"># plot decision boundary</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">cm</span> <span class="o">=</span> <span class="n">ListedColormap</span><span class="p">([</span><span class="s2">&quot;midnightblue&quot;</span><span class="p">,</span> <span class="s2">&quot;firebrick&quot;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">x_grid</span><span class="p">,</span> <span class="n">y_grid</span><span class="p">,</span> <span class="n">z_grid</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cm</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+<span class="c1"># overlaid with test data points</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">DER_mass_MMC</span><span class="p">[</span><span class="n">mask_b</span><span class="p">],</span>
+    <span class="n">DER_mass_transverse_met_lep</span><span class="p">[</span><span class="n">mask_b</span><span class="p">],</span>
+    <span class="s2">&quot;o&quot;</span><span class="p">,</span>
+    <span class="n">markersize</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;midnightblue&quot;</span><span class="p">,</span>
+    <span class="n">markeredgewidth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
+    <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Background&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">DER_mass_MMC</span><span class="p">[</span><span class="n">mask_s</span><span class="p">],</span>
+    <span class="n">DER_mass_transverse_met_lep</span><span class="p">[</span><span class="n">mask_s</span><span class="p">],</span>
+    <span class="s2">&quot;o&quot;</span><span class="p">,</span>
+    <span class="n">markersize</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;firebrick&quot;</span><span class="p">,</span>
+    <span class="n">markeredgewidth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
+    <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Signal&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">150</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">400</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;DER_mass_MMC&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;DER_mass_transverse_met_lep&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">numpoints</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">markerscale</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="01b_Debugging.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Hands-on 01b: Debugging</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="03_Tabular_Data_NN.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Hands-on 03: Tabular data and NNs: Classifying particle jets</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#goal">Goal</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#boosted-decision-tree-library-xgboost">Boosted decision tree library: XGBoost</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data">Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-handling">Data handling</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-xgboost">Installing XGBoost</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#links">Links</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#xgboost-tutorial">XGBoost Tutorial</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Data</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#load-data">Load data</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#detailed-description-of-features">Detailed description of features</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#visualize-the-features">Visualize the features:</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#format-data">Format data:</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#make-the-model">Make the model</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#set-hyperparameters">Set hyperparameters:</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#now-train">Now train!</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluate">Evaluate:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-retrain-bdt-with-2-features-and-plot-decision-boundary">Exercise: Retrain BDT with 2 features and plot decision boundary</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Javier Duarte
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
